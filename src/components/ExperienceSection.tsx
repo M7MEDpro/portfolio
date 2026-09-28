@@ -1,85 +1,81 @@
-import React from 'react';
-import { Briefcase, GraduationCap, Award, Calendar, MapPin, ChevronRight } from 'lucide-react';
-import { EXPERIENCES, CERTIFICATIONS } from '../data/portfolioData';
+import { EXPERIENCES, CLIENT_REVIEWS } from '../data/projectsData';
+import { Briefcase, Star, CheckCircle, Award } from 'lucide-react';
 
-export const ExperienceSection: React.FC = () => {
+export function ExperienceSection() {
   return (
-    <section id="experience" className="py-24 relative overflow-hidden bg-[#0A0E18]/60 border-t border-slate-800/80">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 text-left gap-6">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-neon">
-              <Briefcase className="w-3.5 h-3.5" />
-              <span>Career Roadmap</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight">
-              Experience & <span className="text-gradient-cyan">Leadership</span>
-            </h2>
+    <section id="experience" className="py-20 md:py-28 bg-bg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="max-w-2xl mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-border text-xs font-mono text-muted mb-4">
+            <Briefcase className="w-3.5 h-3.5 text-accent" />
+            <span>Track Record & Delivery</span>
           </div>
-          <p className="text-slate-400 text-sm md:text-base max-w-md leading-relaxed font-sans">
-            A proven record of client contract execution, technical student branch leadership, and algorithmic education.
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-text leading-tight mb-4">
+            Work experience & client delivery.
+          </h2>
+          <p className="text-base sm:text-lg text-muted font-normal leading-relaxed">
+            Roles, commercial plugin commissions, and academic research milestones. Every engagement delivered with direct communication and verifiable results.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 text-left">
-          
-          {/* Work Experience Timeline (8 Cols) */}
-          <div className="lg:col-span-8 space-y-8">
-            <div className="space-y-6">
-              {EXPERIENCES.map((exp, idx) => (
-                <div
-                  key={idx}
-                  className="relative pl-6 md:pl-8 border-l-2 border-slate-800 hover:border-cyan-500/60 transition-colors group"
-                >
-                  {/* Timeline Dot */}
-                  <div className={`absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 transition-all ${
-                    exp.isCurrent
-                      ? 'bg-cyan-neon border-[#07090E] shadow-neon-cyan'
-                      : 'bg-slate-800 border-slate-700 group-hover:bg-cyan-500'
-                  }`} />
+        {/* 2-Column Layout: Left Experience Timeline, Right Verified Client Feedback */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Timeline Column */}
+          <div className="lg:col-span-7 space-y-6">
+            <h3 className="font-heading text-xl font-bold text-text mb-6 flex items-center gap-2">
+              <span>Experience Timeline</span>
+            </h3>
 
-                  <div className="p-6 rounded-2xl bg-[#0D121F] border border-slate-800 group-hover:border-slate-700 transition space-y-4">
-                    {/* Header */}
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <span className="text-xs font-mono text-cyan-neon font-semibold block">
-                          {exp.company}
+            <div className="relative pl-6 space-y-8 before:absolute before:left-2 before:top-3 before:bottom-3 before:w-[2px] before:bg-border">
+              {EXPERIENCES.map((item) => (
+                <div key={item.id} className="relative group">
+                  {/* Timeline indicator node */}
+                  <div className="absolute -left-[27px] top-1.5 w-4 h-4 rounded-full bg-surface border-2 border-accent group-hover:scale-110 transition-transform" />
+
+                  <div className="p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-colors">
+                    {/* Role header */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                      <h4 className="font-heading text-lg font-bold text-text">
+                        {item.role}
+                      </h4>
+                      {item.badge && (
+                        <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-accent-dim text-accent border border-accent/20">
+                          {item.badge}
                         </span>
-                        <h3 className="text-lg font-display font-bold text-white">
-                          {exp.role}
-                        </h3>
-                      </div>
-                      <div className="flex flex-col sm:items-end font-mono text-xs text-slate-400">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3 text-slate-500" />
-                          {exp.period}
-                        </span>
-                        <span className="text-[11px] text-slate-500 flex items-center gap-1">
-                          <MapPin className="w-3 h-3" /> {exp.location} • {exp.type}
-                        </span>
-                      </div>
+                      )}
                     </div>
 
-                    {/* Bullet Points */}
-                    <ul className="space-y-2 text-xs md:text-sm text-slate-300 font-sans leading-relaxed">
-                      {exp.description.map((desc, dIdx) => (
-                        <li key={dIdx} className="flex items-start gap-2">
-                          <ChevronRight className="w-3.5 h-3.5 text-cyan-neon shrink-0 mt-1" />
-                          <span>{desc}</span>
+                    <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-muted mb-3.5">
+                      <span className="text-accent font-semibold">{item.company}</span>
+                      <span>•</span>
+                      <span>{item.period}</span>
+                      <span>•</span>
+                      <span>{item.type}</span>
+                    </div>
+
+                    <p className="text-sm text-muted leading-relaxed mb-4">
+                      {item.description}
+                    </p>
+
+                    {/* Bullet achievements */}
+                    <ul className="space-y-1.5 mb-4">
+                      {item.achievements.map((ach, aIdx) => (
+                        <li key={aIdx} className="flex items-start gap-2 text-xs text-text/90">
+                          <CheckCircle className="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5" />
+                          <span>{ach}</span>
                         </li>
                       ))}
                     </ul>
 
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-800/60">
-                      {exp.technologies.map((tech, tIdx) => (
+                    {/* Skill tags */}
+                    <div className="flex flex-wrap gap-1.5 pt-2 border-t border-border">
+                      {item.skills.map((skill) => (
                         <span
-                          key={tIdx}
-                          className="px-2 py-0.5 rounded bg-slate-900 text-slate-300 text-[10px] font-mono border border-slate-800"
+                          key={skill}
+                          className="px-2 py-0.5 rounded-md bg-surface-2 text-[11px] font-mono text-muted"
                         >
-                          {tech}
+                          {skill}
                         </span>
                       ))}
                     </div>
@@ -89,70 +85,98 @@ export const ExperienceSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Education & Certifications (4 Cols) */}
-          <div className="lg:col-span-4 space-y-8">
-            
-            {/* Education Box */}
-            <div className="p-6 rounded-2xl bg-[#0D121F] border border-cyan-500/20 space-y-4">
-              <div className="flex items-center gap-2 text-cyan-neon font-mono text-xs font-semibold uppercase tracking-wider">
-                <GraduationCap className="w-4 h-4" /> Academic Background
-              </div>
-              <div className="space-y-1.5">
-                <h3 className="font-display font-bold text-white text-base">
-                  Bachelor of Engineering
-                </h3>
-                <p className="text-xs text-cyan-neon font-mono">
-                  Software Engineering & Information Technology
-                </p>
-                <p className="text-xs text-slate-400">
-                  Faculty of Engineering and Technology, Egyptian Chinese University (ECU)
-                </p>
-                <div className="pt-2 flex items-center justify-between text-xs font-mono">
-                  <span className="text-slate-400">2024 – 2029</span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold">
-                    GPA: 3.74 / 4.0
-                  </span>
+          {/* Client Feedback & Research Column */}
+          <div className="lg:col-span-5 space-y-6">
+            <h3 className="font-heading text-xl font-bold text-text mb-6 flex items-center gap-2">
+              <span>Verified Client Feedback</span>
+            </h3>
+
+            {/* Rollerite Summary Card */}
+            <div className="p-6 rounded-2xl bg-surface border border-border shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <div className="font-heading font-bold text-lg text-text">
+                    Rollerite LLC Commissions
+                  </div>
+                  <div className="text-xs font-mono text-muted">
+                    Bespoke Java & Network Systems
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-accent-dim border border-accent/30 text-accent font-mono font-bold text-sm">
+                  <Star className="w-4 h-4 fill-accent text-accent" />
+                  <span>4.83 / 5.0</span>
                 </div>
               </div>
-            </div>
 
-            {/* Certifications & Honors */}
-            <div className="p-6 rounded-2xl bg-[#0D121F] border border-slate-800 space-y-5">
-              <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-semibold uppercase tracking-wider">
-                <Award className="w-4 h-4" /> Honors & Certifications
+              <div className="grid grid-cols-2 gap-3 mb-6 p-3 rounded-xl bg-surface-2 text-center text-xs font-mono">
+                <div>
+                  <div className="font-bold text-base text-text">8</div>
+                  <div className="text-muted">Commissions Delivered</div>
+                </div>
+                <div>
+                  <div className="font-bold text-base text-accent">100%</div>
+                  <div className="text-muted">On-Time Completion</div>
+                </div>
               </div>
+
+              {/* Review Snippets */}
               <div className="space-y-4">
-                {CERTIFICATIONS.map((cert, cIdx) => (
-                  <div key={cIdx} className="pb-3 border-b border-slate-800/60 last:border-0 last:pb-0 space-y-1">
-                    <h4 className="text-xs font-display font-bold text-white">
-                      {cert.title}
-                    </h4>
-                    <p className="text-[11px] font-mono text-cyan-neon">
-                      {cert.issuer}
+                {CLIENT_REVIEWS.map((rev) => (
+                  <div
+                    key={rev.id}
+                    className="p-4 rounded-xl bg-surface-2/60 border border-border text-xs space-y-2"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-text font-mono">
+                        {rev.client}
+                      </span>
+                      <div className="flex items-center text-amber-400">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-3 h-3 ${
+                              i < Math.floor(rev.rating)
+                                ? 'fill-amber-400 text-amber-400'
+                                : 'text-muted-dim'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-muted italic leading-relaxed">
+                      "{rev.review}"
                     </p>
-                    <span className="inline-block text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
-                      {cert.badge}
-                    </span>
+                    <div className="text-[11px] font-mono text-muted-dim flex justify-between">
+                      <span>{rev.project}</span>
+                      <span>{rev.date}</span>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* English Proficiency Callout */}
-            <div className="p-5 rounded-2xl bg-gradient-to-r from-violet-500/10 to-cyan-500/10 border border-violet-500/30 space-y-2">
-              <span className="text-xs font-mono text-violet-400 font-semibold block">
-                🌐 International Communication
-              </span>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Certified <span className="text-white font-bold">C1 Advanced English</span> (EF SET 68/100). Fluent technical dialogue, real-time client sprint syncs, and formal documentation.
+            {/* Academic Publication Highlight */}
+            <div className="p-6 rounded-2xl bg-surface border border-border">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-accent-dim border border-accent/20 flex items-center justify-center text-accent">
+                  <Award className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-heading font-bold text-text text-base">
+                    IEEE ITC-Egypt 2025 Publication
+                  </h4>
+                  <p className="text-xs font-mono text-muted">
+                    International Telecommunications Conference
+                  </p>
+                </div>
+              </div>
+              <p className="text-xs text-muted leading-relaxed">
+                Co-authored research on "Smart Greenhouse Automation with Closed-Loop Sensor Telemetry", accepted after peer review for its embedded firmware architecture and deterministic telemetry loops.
               </p>
             </div>
-
           </div>
-
         </div>
-
       </div>
     </section>
   );
-};
+}
