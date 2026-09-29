@@ -228,6 +228,32 @@ export function ThreeTierShowcase() {
       statValue: 'SQLCipher',
       buttonType: 'none',
     },
+    {
+      id: 'islammate-mobile',
+      tabName: 'Islam Mate',
+      title: 'IslamMate Cross-Platform Islamic Companion',
+      subtitle: 'Mathematical Prayer Calculation Engine, Audio Quran & Habit Recovery',
+      role: 'Lead Flutter & Architecture Engineer',
+      organization: 'IslamMate Open Ecosystem',
+      orgUrl: 'https://github.com/M7MEDpro',
+      summary:
+        'Production cross-platform mobile suite built with Flutter and Clean Architecture. Implements offline astronomical prayer calculation formulas, true-north magnetometer Qibla direction, interactive digital tasbih, audio Quran player, and habit recovery protocol.',
+      highlights: [
+        'Astronomical solar angle calculation engine determining precise prayer windows offline with zero API calls.',
+        'High-performance reactive State management with Provider and local persistent cache.',
+        'Interactive digital Tasbih counter and audio recitation engine with background playback control.',
+      ],
+      stats: [
+        { label: 'Calculation', value: '100% Offline' },
+        { label: 'State Mgmt', value: 'Provider' },
+        { label: 'Platform', value: 'Flutter' },
+      ],
+      tags: ['Flutter', 'Dart', 'Clean Architecture', 'Provider', 'Audio Engine', 'Offline-First'],
+      badge: 'Flutter Mobile App',
+      statLabel: 'Engine State',
+      statValue: 'Offline First',
+      buttonType: 'none',
+    },
   ];
 
   // 3. High-Performance Java Backend & Systems (Displayed on 3D Server Rack)
@@ -759,6 +785,13 @@ export function ThreeTierShowcase() {
                   <div className="relative w-full h-full bg-[#0c0a17] overflow-hidden">
                     <ShowcaseVideo
                       src="/videos/thauma_demo.mp4"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                ) : currentMobile.id === 'islammate-mobile' ? (
+                  <div className="relative w-full h-full bg-[#07090d] overflow-hidden">
+                    <ShowcaseVideo
+                      src="/videos/islammate_demo.mp4"
                       className="w-full h-full object-cover object-center"
                     />
                   </div>
