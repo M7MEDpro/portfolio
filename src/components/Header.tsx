@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { ThemeToggle } from './ThemeToggle';
 import { PERSONAL_INFO } from '../data/projectsData';
-import { Menu, X, FileText, ArrowUpRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,7 +16,7 @@ export function Header() {
 
   const navLinks = [
     { label: 'Projects', href: '#projects' },
-    { label: 'Skills', href: '#skills' },
+    { label: 'Full Stack', href: '#stack' },
     { label: 'Experience', href: '#experience' },
     { label: 'Contact', href: '#contact' },
   ];
@@ -59,40 +58,27 @@ export function Header() {
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1 lg:gap-2" aria-label="Main Navigation">
+        <nav className="hidden md:flex items-center gap-2 lg:gap-3" aria-label="Main Navigation">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="px-3.5 py-2 text-sm font-medium text-[#8b99ad] hover:text-white rounded-lg hover:bg-white/5 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-[#8b99ad] hover:text-white rounded-full hover:bg-white/5 transition-colors font-mono"
             >
               {link.label}
             </a>
           ))}
 
-          <div className="h-4 w-px bg-white/10 mx-2" aria-hidden="true" />
-
-          {/* Resume Link */}
           <a
-            href={PERSONAL_INFO.cvUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-[#0e1217] hover:bg-[#151c24] border border-white/10 hover:border-[#00ff87]/40 rounded-full transition-all group shadow-sm"
+            href="#contact"
+            className="ml-2 px-5 py-2 text-xs font-mono font-bold text-[#04120a] btn-neon rounded-full transition-all"
           >
-            <FileText className="w-3.5 h-3.5 text-[#00ff87]" />
-            <span>Resume</span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-[#8b99ad] group-hover:text-white transition-colors" />
+            Hire Badawy
           </a>
-
-          {/* Theme Toggle */}
-          <div className="ml-1">
-            <ThemeToggle />
-          </div>
         </nav>
 
         {/* Mobile Menu Button */}
-        <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle />
+        <div className="flex items-center md:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             type="button"
@@ -114,24 +100,17 @@ export function Header() {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3.5 py-2.5 text-base font-medium text-[#8b99ad] hover:text-white hover:bg-white/5 rounded-xl transition-colors"
+                className="px-4 py-2.5 text-base font-medium text-[#8b99ad] hover:text-white hover:bg-white/5 rounded-xl transition-colors font-mono"
               >
                 {link.label}
               </a>
             ))}
-          </div>
-
-          <div className="pt-2 border-t border-white/10 flex items-center justify-between">
             <a
-              href={PERSONAL_INFO.cvUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-[#0e1217] border border-white/10 rounded-xl w-full justify-center"
+              className="mt-2 text-center py-3 text-xs font-mono font-bold text-[#04120a] btn-neon rounded-xl"
             >
-              <FileText className="w-4 h-4 text-[#00ff87]" />
-              <span>Download CV (PDF)</span>
-              <ArrowUpRight className="w-4 h-4 text-[#8b99ad]" />
+              Hire Badawy
             </a>
           </div>
         </div>

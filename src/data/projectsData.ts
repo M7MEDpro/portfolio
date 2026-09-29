@@ -1,13 +1,3 @@
-export interface ProjectScreenDetail {
-  type: 'smart_home' | 'ieee_portal' | 'punishment' | 'pcb_web' | 'healthlink';
-  status: string;
-  metricLabel: string;
-  metricValue: string;
-  subtext: string;
-  badge: string;
-  accent: string;
-}
-
 export interface Project {
   id: string;
   number: string;
@@ -19,16 +9,18 @@ export interface Project {
   summary: string;
   keyFeatures: string[];
   tags: string[];
-  accentColor: string; // e.g. #00ff87
-  glowColor: string;
+  accentColor: string;
   image: string;
+  device: 'laptop' | 'phone';
   stats: { label: string; value: string }[];
   links: {
     github?: string;
     live?: string;
     docs?: string;
   };
-  screenDetails: ProjectScreenDetail;
+  mockupBadge: string;
+  mockupStatLabel: string;
+  mockupStatValue: string;
 }
 
 export interface SkillCategory {
@@ -64,10 +56,10 @@ export const PERSONAL_INFO = {
   handle: "M7MEDpro",
   title: "Systems Engineer & Full-Stack Developer",
   location: "Cairo, Egypt",
-  bio: "I'm Mohamed Badawy. I engineer high-throughput Java server systems, cross-platform Flutter mobile applications, and connected IoT hardware that stay fast and reliable under heavy production traffic.",
+  bio: "I'm Mohamed Badawy. I build distributed Java server systems, responsive cross-platform Flutter applications, and connected IoT hardware that stay fast and reliable under heavy production traffic.",
   email: "bdwym2007@gmail.com",
   github: "https://github.com/M7MEDpro",
-  linkedin: "https://www.linkedin.com/in/badawy-dev/",
+  linkedin: "https://www.linkedin.com/in/mohamedbadawy-b608b5361",
   cvUrl: "/Mohamed_Badawy_CV.pdf",
   status: "Available for select freelance contracts & full-time roles",
 };
@@ -76,176 +68,184 @@ export const PROJECTS: Project[] = [
   {
     id: "ieee-ecu-platform",
     number: "01",
-    title: "IEEE Student Branch Platform",
-    subtitle: "Full-Stack Backend & Member Portal",
-    category: "Backend Systems",
-    role: "Lead Backend Developer",
+    title: "IEEE Student Branch Portal",
+    subtitle: "Enterprise Backend Architecture & Member Platform",
+    category: "Web & Backend",
+    role: "Lead Backend Architect",
     organization: "IEEE ECU Student Branch",
     summary:
-      "Built the official backend powering member onboarding, workshop registrations, and role-based permissions for over 500 active university students.",
+      "Engineered the official member portal and backend for our university's IEEE branch. Handles student onboarding, committee permissions, and QR-code attendance for 500+ active members without downtime.",
     keyFeatures: [
-      "Spring Boot 3 + MongoDB backend securing student records with cryptographically signed JWT auth.",
-      "Granular role-based access for student members, committee leads, and executive admins.",
-      "Standardized error handling across all 30+ service endpoints with zero unhandled runtime crashes."
+      "Spring Boot 3 + MongoDB database secured with cryptographically salted JWT authorization tokens.",
+      "Granular role-based access control (RBAC) separating student attendees, committee heads, and executive admins.",
+      "Comprehensive RFC 7807 problem details handler eliminating cryptic runtime exceptions across 30+ service endpoints."
     ],
     tags: ["Java 21", "Spring Boot", "MongoDB", "JWT Auth", "Docker", "REST API"],
-    accentColor: "#00ff87", // Neon emerald
-    glowColor: "rgba(0, 255, 135, 0.25)",
-    image: "/assets/projects/ieee_ecu_portal.png",
+    accentColor: "#00ff87",
+    image: "/projects/ieee_dashboard.png",
+    device: "laptop",
     stats: [
       { label: "Active Members", value: "500+" },
       { label: "API Endpoints", value: "30+" },
-      { label: "Server Stack", value: "Spring Boot" }
+      { label: "Architecture", value: "Clean DDD" }
     ],
     links: {
       github: "https://github.com/M7MEDpro/IEEE-ECU-SB-Platform",
       docs: "https://github.com/M7MEDpro"
     },
-    screenDetails: {
-      type: "ieee_portal",
-      status: "Cluster Online",
-      metricLabel: "Active Sessions",
-      metricValue: "482 / 500",
-      subtext: "Spring Boot 3.2 • MongoDB • JWT Protected",
-      badge: "Production API",
-      accent: "#00ff87"
-    }
+    mockupBadge: "Production Web Portal",
+    mockupStatLabel: "Active Sessions",
+    mockupStatValue: "482 / 500",
+  },
+  {
+    id: "projecto-messio",
+    number: "02",
+    title: "Projecto-Messio Smart Home IoT",
+    subtitle: "ESP32 Microcontroller Firmware & Flutter App",
+    category: "IoT & Mobile",
+    role: "Embedded Firmware & Flutter Engineer",
+    organization: "Applied IoT Project",
+    summary:
+      "End-to-end smart home automation system connecting ESP32 microcontrollers to a custom Flutter mobile app over local MQTT. Relays and sensors toggle in under 40ms with full offline state fallback.",
+    keyFeatures: [
+      "Event-driven C++ firmware running on ESP32 microcontrollers with hardware interrupt debouncing and safe relay states.",
+      "Sub-40ms local round-trip latency over MQTT message broker for instant lighting and climate adjustments.",
+      "Offline-first state machine buffering commands locally during network drops and reconciling safely upon reconnect."
+    ],
+    tags: ["Flutter", "ESP32 / C++", "MQTT Broker", "WebSockets", "IoT Sensors", "Embedded"],
+    accentColor: "#00ff87",
+    image: "/assets/projects/smart_home_iot.png",
+    device: "phone",
+    stats: [
+      { label: "Switch Latency", value: "<40ms" },
+      { label: "Microcontroller", value: "ESP32 C++" },
+      { label: "Protocol", value: "MQTT" }
+    ],
+    links: {
+      github: "https://github.com/M7MEDpro",
+      docs: "https://github.com/M7MEDpro"
+    },
+    mockupBadge: "Flutter + ESP32",
+    mockupStatLabel: "Ping Loop",
+    mockupStatValue: "38ms",
   },
   {
     id: "punishment-system",
-    number: "02",
-    title: "High-Concurrency Moderation Core",
-    subtitle: "Non-Blocking Distributed Server Engine",
+    number: "03",
+    title: "PunishmentSystem Server Core",
+    subtitle: "High-Concurrency Non-Blocking Moderation Engine",
     category: "Distributed Systems",
     role: "Systems Developer",
     organization: "Rollerite LLC (Commercial Contract)",
     summary:
-      "Engineered an asynchronous penalty and player moderation architecture for high-traffic Minecraft server networks. Keeps server tick rates pinned at a perfect 20 TPS.",
+      "Asynchronous player moderation engine built for high-traffic Minecraft server networks. Keeps server tick rates pinned at a perfect 20 TPS by moving all disk and database lookups to worker threads.",
     keyFeatures: [
-      "Zero server tick loss: offloads all database queries and Redis messages to async background worker threads.",
-      "Syncs bans, mutes, and warning records across distributed server nodes in under 15ms via Redis pub/sub.",
-      "Delivered commercially for Rollerite LLC with a 4.83/5.0 verified client satisfaction rating."
+      "Zero server tick loss: completely offloads SQL and Redis operations to background asynchronous worker threads.",
+      "Cross-server penalty sync under 15ms across distributed Paper and Velocity proxy nodes via Redis pub/sub.",
+      "Delivered commercially for Rollerite LLC (5.0/5.0 client feedback across 8 client commissions)."
     ],
     tags: ["Java", "Paper / Velocity API", "Redis Pub/Sub", "MySQL", "HikariCP", "Multi-Threading"],
-    accentColor: "#38bdf8", // Electric cyan
-    glowColor: "rgba(56, 189, 248, 0.25)",
-    image: "/projects/thauma_leaderboard.png",
+    accentColor: "#38bdf8",
+    image: "/projects/user_project_banner.png",
+    device: "laptop",
     stats: [
       { label: "Server Tick Rate", value: "20.0 TPS" },
       { label: "Network Sync", value: "<15ms" },
-      { label: "Commissions", value: "8 Done" }
+      { label: "Commissions", value: "8 Delivered" }
     ],
     links: {
       github: "https://github.com/M7MEDpro",
       live: "https://rollerite.com"
     },
-    screenDetails: {
-      type: "punishment",
-      status: "Network Synced",
-      metricLabel: "Main Thread Load",
-      metricValue: "0.2ms / 50ms",
-      subtext: "Paper 1.20+ • Redis Pub/Sub • 20 TPS",
-      badge: "Rollerite Contract",
-      accent: "#38bdf8"
-    }
+    mockupBadge: "Rollerite Contract",
+    mockupStatLabel: "Main Thread Load",
+    mockupStatValue: "0.2ms / 50ms",
+  },
+  {
+    id: "thauma-mobile",
+    number: "04",
+    title: "Thauma Leaderboard & Gamification",
+    subtitle: "High-FPS Animated Ranking & Trophy App",
+    category: "Mobile Application",
+    role: "Mobile Frontend Engineer",
+    organization: "Thauma Platform",
+    summary:
+      "Mobile gamification and hall-of-fame application featuring smooth animated leaderboards, achievement trophies, and responsive ranking lists running at solid 60 FPS.",
+    keyFeatures: [
+      "Butter-smooth 60 FPS animations with hardware-accelerated particle effects and staggered list transitions.",
+      "Real-time ranking synchronization updating player score deltas and trophy unlock badges instantly.",
+      "Adaptive touch-friendly ergonomics optimized for one-handed navigation on modern mobile displays."
+    ],
+    tags: ["Flutter", "Dart", "60 FPS Animations", "Riverpod", "Clean Architecture"],
+    accentColor: "#a855f7",
+    image: "/assets/projects/thauma_09_hall_of_fame_leaderboard.png",
+    device: "phone",
+    stats: [
+      { label: "Rendering", value: "60 FPS" },
+      { label: "Platform", value: "Flutter" },
+      { label: "State", value: "Reactive" }
+    ],
+    links: {
+      github: "https://github.com/M7MEDpro",
+      docs: "https://github.com/M7MEDpro"
+    },
+    mockupBadge: "Hall of Fame UI",
+    mockupStatLabel: "Render Speed",
+    mockupStatValue: "60 FPS",
   },
   {
     id: "innovatronics-pwa",
-    number: "03",
+    number: "05",
     title: "Innovatronics Interactive PCB Web",
-    subtitle: "Custom Canvas Graphics & Algorithmic Routing",
+    subtitle: "Procedural Canvas Graphics & Algorithmic Routing",
     category: "Interactive Graphics",
     role: "Lead Frontend Engineer",
     organization: "Innovatronics Tech",
     summary:
-      "Designed and coded a responsive web application featuring an animated printed circuit board (PCB) organizational tree rendered via CustomPainter routines.",
+      "Interactive web application featuring an animated printed circuit board (PCB) organizational tree. Coded custom mathematical line-routing algorithms in Flutter CustomPainter to draw circuit board traces dynamically.",
     keyFeatures: [
-      "Custom mathematical line-routing algorithm drawing 45-degree angle bends and smooth bezier connector traces.",
-      "Solid 60 FPS vector animations running smoothly on both mobile touchscreens and desktop monitors.",
-      "Pure Flutter web rendering with zero heavy third-party canvas libraries or DOM lag."
+      "Custom line-routing algorithm calculating 45-degree angle bends and smooth bezier connector curves between nodes.",
+      "Solid 60 FPS vector animations running smoothly across desktop browsers and mobile touchscreens.",
+      "Pure Flutter web canvas rendering with zero heavy third-party canvas libraries or DOM lag."
     ],
     tags: ["Flutter Web", "Dart", "CustomPainter", "Vector Graphics", "Algorithmic Routing"],
-    accentColor: "#f59e0b", // Warm circuit amber
-    glowColor: "rgba(245, 158, 11, 0.25)",
+    accentColor: "#f59e0b",
     image: "/assets/projects/innovationics_tech.png",
+    device: "laptop",
     stats: [
       { label: "Frame Rate", value: "60 FPS" },
-      { label: "Canvas Engine", value: "Custom" },
+      { label: "Engine", value: "CustomPainter" },
       { label: "Trace Routing", value: "45° Bezier" }
     ],
     links: {
       github: "https://github.com/M7MEDpro",
       live: "https://github.com/M7MEDpro"
     },
-    screenDetails: {
-      type: "pcb_web",
-      status: "Canvas Active",
-      metricLabel: "Trace Rendering",
-      metricValue: "60 FPS",
-      subtext: "Flutter Canvas • Orthogonal Routing • Zero Lag",
-      badge: "Interactive Graphics",
-      accent: "#f59e0b"
-    }
-  },
-  {
-    id: "projecto-messio",
-    number: "04",
-    title: "ESP32 Smart Home & IoT Hub",
-    subtitle: "Embedded Firmware & Real-Time Mobile Controller",
-    category: "IoT & Embedded C++",
-    role: "Embedded Firmware & App Developer",
-    organization: "Applied IoT Project",
-    summary:
-      "End-to-end automation connecting ESP32 microcontroller sensors to a synchronized Flutter mobile controller over local MQTT. Instant relay switching in under 40ms.",
-    keyFeatures: [
-      "Event-driven C++ firmware running on ESP32 microcontrollers with non-blocking timers and debounce filters.",
-      "Sub-40ms local round-trip latency for lights, climate control, and environmental telemetry over MQTT.",
-      "Resilient offline mode that safely queues state changes locally if the internet connection drops."
-    ],
-    tags: ["Flutter", "C++ / ESP32", "MQTT Broker", "WebSockets", "IoT Hardware", "Sensors"],
-    accentColor: "#00ff87", // Neon green
-    glowColor: "rgba(0, 255, 135, 0.25)",
-    image: "/assets/projects/smart_home_iot.png",
-    stats: [
-      { label: "Switch Latency", value: "<40ms" },
-      { label: "Controller", value: "ESP32 C++" },
-      { label: "Protocol", value: "MQTT / WS" }
-    ],
-    links: {
-      github: "https://github.com/M7MEDpro",
-      docs: "https://github.com/M7MEDpro"
-    },
-    screenDetails: {
-      type: "smart_home",
-      status: "Telemetry Live",
-      metricLabel: "Ping Latency",
-      metricValue: "38ms",
-      subtext: "ESP32 Firmware • MQTT Broker • Relays Active",
-      badge: "Embedded & App",
-      accent: "#00ff87"
-    }
+    mockupBadge: "CustomPainter Engine",
+    mockupStatLabel: "Canvas FPS",
+    mockupStatValue: "60 FPS Solid",
   },
   {
     id: "healthlink-suite",
-    number: "05",
+    number: "06",
     title: "HealthLink Cross-Platform Suite",
-    subtitle: "Healthcare Vitals & Encrypted Records",
+    subtitle: "Healthcare Telemetry & Encrypted Records",
     category: "Cross-Platform Engineering",
     role: "Cross-Platform Mobile Engineer",
     organization: "Clinical Informatics Project",
     summary:
-      "Cross-platform healthcare management app running on mobile tablets, phones, and desktop workstations with encrypted local SQLite database synchronization.",
+      "Multi-platform healthcare management suite spanning Flutter desktop, Flutter mobile, and shared native C++ data processing routines with encrypted local SQLite database synchronization.",
     keyFeatures: [
       "Single Flutter codebase providing tailored interfaces for clinical tablet workstations and handheld phones.",
-      "Local database encrypted with SQLCipher for confidential patient records and instant offline search.",
-      "Shared native C++ data processing layer handling encrypted files with zero UI stutter."
+      "Local SQLite database encrypted with SQLCipher for confidential records and instantaneous offline search.",
+      "Shared native C++ processing layer for fast record decryption without UI stutter."
     ],
     tags: ["Flutter Desktop", "Flutter Mobile", "C++ Core", "SQLite Encrypted", "State Management"],
-    accentColor: "#ec4899", // Neon rose
-    glowColor: "rgba(236, 72, 153, 0.25)",
+    accentColor: "#ec4899",
     image: "/assets/projects/healthlink_medical.png",
+    device: "laptop",
     stats: [
-      { label: "Platforms", value: "Desktop & Mobile" },
+      { label: "Platforms", value: "3 Targets" },
       { label: "Database", value: "SQLCipher" },
       { label: "Sync Engine", value: "Delta Protocol" }
     ],
@@ -253,15 +253,9 @@ export const PROJECTS: Project[] = [
       github: "https://github.com/M7MEDpro",
       docs: "https://github.com/M7MEDpro"
     },
-    screenDetails: {
-      type: "healthlink",
-      status: "DB Encrypted",
-      metricLabel: "Sync Status",
-      metricValue: "100% Synced",
-      subtext: "Flutter Cross-Platform • SQLCipher • Instant Search",
-      badge: "Clinical App",
-      accent: "#ec4899"
-    }
+    mockupBadge: "Desktop & Mobile",
+    mockupStatLabel: "Encrypted DB",
+    mockupStatValue: "SQLCipher",
   }
 ];
 
@@ -299,7 +293,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     title: "Hardware & DevOps",
     description: "Microcontroller telemetry, containerized workflows, and Linux servers.",
     skills: [
-      { name: "ESP32 / Embedded", level: "Production", note: "Non-blocking firmware loops, sensor integration, hardware interrupts" },
+      { name: "ESP32 / Arduino", level: "Production", note: "Non-blocking firmware loops, sensor integration, hardware interrupts" },
       { name: "Docker", level: "Working", note: "Containerized environments, multi-stage builds, compose networks" },
       { name: "Git & Linux", level: "Daily", note: "CI workflows, server deployment, shell automation, SSH management" }
     ]
@@ -339,32 +333,32 @@ export const EXPERIENCES: ExperienceItem[] = [
   },
   {
     id: "ieee-ecu",
-    role: "Technical PR & Workshop Instructor",
+    role: "Vice PR & Workshop Instructor",
     company: "IEEE ECU Student Branch",
     period: "2024 – Present",
     type: "Student Leadership",
-    description: "Spearheaded technical development for branch web infrastructure, instructed hands-on engineering workshops, and mentored junior engineering students.",
+    description: "Spearheaded technical development for branch web infrastructure, instructed peer data structures workshops, and mentored junior engineering students.",
     achievements: [
       "Architected the official student branch platform using Spring Boot and MongoDB.",
-      "Conducted practical training workshops on object-oriented programming, Git workflows, and API design.",
-      "Co-managed technical public relations and digital event registration operations."
+      "Taught core data structures and algorithms workshops to university students.",
+      "Co-organized national engineering events including Made in Egypt (MIE) Closing Ceremony."
     ],
-    skills: ["Spring Boot", "Technical Instruction", "Public Relations", "Team Mentorship"],
+    skills: ["Spring Boot", "Data Structures", "Technical Instruction", "Public Relations"],
     badge: "Leadership"
   },
   {
     id: "itc-egypt-2025",
-    role: "Research Co-Author",
+    role: "Published Research Co-Author",
     company: "IEEE ITC-Egypt 2025 Conference",
-    period: "Accepted 2025",
+    period: "Published 2025",
     type: "Academic Research",
-    description: "Co-authored peer-reviewed research paper: 'Smart Greenhouse Automation with Closed-Loop Sensor Telemetry' presented at the International Telecommunications Conference.",
+    description: "Co-authored peer-reviewed research paper: 'Agricultural Monitoring and Automation Enabler: Feedback-Based Desktop Remotely Controlled System' (DOI: 10.1109/ITC-Egypt66095.2025.11186572).",
     achievements: [
-      "Formulated mathematical models for closed-loop environmental sensor telemetry and actuator triggers.",
-      "Engineered the embedded C++ telemetry firmware transmitting microclimate metrics to the centralized cloud.",
-      "Successfully defended research methodology for academic acceptance by the IEEE review board."
+      "Designed an automated feedback-based greenhouse monitoring system integrating Arduino microcontrollers with DHT11 and LDR sensors.",
+      "Engineered real-time desktop communication loop for microclimate control and environmental telemetry.",
+      "Published in IEEE Xplore after peer-review acceptance at the International Telecommunications Conference."
     ],
-    skills: ["Academic Research", "C++ Firmware", "IoT Telemetry", "Mathematical Modeling"],
+    skills: ["Academic Research", "Embedded C++", "Sensor Integration", "IEEE Documentation"],
     badge: "Published Research"
   }
 ];
