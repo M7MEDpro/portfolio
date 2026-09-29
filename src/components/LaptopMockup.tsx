@@ -3,13 +3,14 @@ import { useEffect, useState, useRef } from 'react';
 interface LaptopMockupProps {
   title: string;
   category?: string;
-  image: string;
+  image?: string;
   url?: string;
   badge?: string;
   statLabel?: string;
   statValue?: string;
   accentColor?: string;
   tiltDirection?: 'left' | 'right';
+  children?: React.ReactNode;
 }
 
 export function LaptopMockup({
@@ -21,6 +22,7 @@ export function LaptopMockup({
   statValue = 'Active 60 FPS',
   accentColor = '#00ff87',
   tiltDirection = 'left',
+  children,
 }: LaptopMockupProps) {
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -97,35 +99,45 @@ export function LaptopMockup({
             </div>
           </div>
 
-          {/* Screen Content Viewport (High-Resolution Image + HUD Overlay) */}
+          {/* Screen Content Viewport (Interactive Custom UI OR High-Resolution Image + HUD Overlay) */}
           <div className="relative flex-1 w-full rounded-b-xl overflow-hidden bg-[#07090d] group">
-            {/* Project Screenshot */}
-            <img
-              src={image}
-              alt={`${title} preview`}
-              className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              loading="lazy"
-            />
-
-            {/* Subtle Gradient Vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-
-            {/* Bottom HUD Bar on Screen */}
-            <div className="absolute bottom-2.5 inset-x-2.5 flex items-center justify-between p-2 rounded-xl bg-[#0d1217]/90 border border-white/10 backdrop-blur-md">
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-md bg-[#00ff87]/20 text-[#00ff87] font-mono font-bold text-[10px]">
-                  {badge}
-                </span>
-                <span className="text-xs font-semibold text-white truncate max-w-[180px]">
-                  {title}
-                </span>
+            {children ? (
+              <div className="w-full h-full relative z-10 overflow-hidden">
+                {children}
               </div>
+            ) : (
+              <>
+                {/* Project Screenshot */}
+                {image && (
+                  <img
+                    src={image}
+                    alt={`${title} preview`}
+                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                )}
 
-              <div className="flex items-center gap-2 font-mono text-[10px]">
-                <span className="text-white/50">{statLabel}:</span>
-                <span className="font-bold text-[#00ff87]">{statValue}</span>
-              </div>
-            </div>
+                {/* Subtle Gradient Vignette */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+
+                {/* Bottom HUD Bar on Screen */}
+                <div className="absolute bottom-2.5 inset-x-2.5 flex items-center justify-between p-2 rounded-xl bg-[#0d1217]/90 border border-white/10 backdrop-blur-md">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded-md bg-[#00ff87]/20 text-[#00ff87] font-mono font-bold text-[10px]">
+                      {badge}
+                    </span>
+                    <span className="text-xs font-semibold text-white truncate max-w-[180px]">
+                      {title}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 font-mono text-[10px]">
+                    <span className="text-white/50">{statLabel}:</span>
+                    <span className="font-bold text-[#00ff87]">{statValue}</span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
 

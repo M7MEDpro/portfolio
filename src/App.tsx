@@ -1,5 +1,6 @@
 import { SmoothScroll } from './components/SmoothScroll';
 import { BackgroundEffects } from './components/BackgroundEffects';
+import { ScrollProgressBar } from './components/ScrollProgressBar';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ThreeTierShowcase } from './components/ThreeTierShowcase';
@@ -17,6 +18,9 @@ export function App() {
 
         {/* Interactive Ambient Canvas Spotlight & Floating Particles */}
         <BackgroundEffects />
+
+        {/* Side Scroll Progress Bar with Section Navigation */}
+        <ScrollProgressBar />
 
         {/* Clean Luxury Header (No Resume, No Light Mode) */}
         <Header />

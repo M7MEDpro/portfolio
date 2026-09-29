@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, Terminal, Layers, Cpu, Smartphone, Award } from 'lucide-react';
+import { ArrowRight, Mail, Terminal, Layers, Cpu, Smartphone, Award, Star } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/projectsData';
 
 export function Hero() {
@@ -11,18 +11,18 @@ export function Hero() {
   };
 
   const proofChips = [
-    { label: "Java 21 & Spring Boot", icon: Layers },
-    { label: "Paper & Velocity Systems", icon: Terminal },
-    { label: "Flutter Mobile & Desktop", icon: Smartphone },
+    { label: "Java 21 & Spring Boot 3", icon: Layers },
+    { label: "Spigot, Paper & Velocity", icon: Terminal },
+    { label: "Flutter Mobile (Riverpod)", icon: Smartphone },
     { label: "ESP32 Embedded C++", icon: Cpu },
-    { label: "IEEE Research Co-Author", icon: Award },
+    { label: "Webmaster @ IEEE ECU", icon: Award },
   ];
 
   return (
-    <section className="relative pt-14 pb-20 md:pt-24 md:pb-32 overflow-hidden text-center">
+    <section id="hero" className="relative pt-14 pb-20 md:pt-24 md:pb-32 overflow-hidden text-center">
       {/* Ambient Neon Glow Spot in Background */}
       <div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-[#00ff87]/15 to-[#10b981]/5 rounded-full blur-[140px] pointer-events-none"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[380px] bg-gradient-to-tr from-[#00ff87]/15 to-[#10b981]/5 rounded-full blur-[160px] pointer-events-none"
         aria-hidden="true"
       />
 
@@ -33,7 +33,7 @@ export function Hero() {
           <span className="text-white font-medium">{PERSONAL_INFO.status}</span>
         </div>
 
-        {/* Main Sentra-style Headline */}
+        {/* Main Headline */}
         <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6">
           High-Throughput Backend.
           <br />
@@ -42,12 +42,12 @@ export function Hero() {
           </span>
         </h1>
 
-        {/* Human, authentic bio paragraph */}
+        {/* Bio paragraph with exact verified details */}
         <p className="text-base sm:text-xl text-[#94a3b8] leading-relaxed mb-10 max-w-2xl mx-auto font-normal">
-          I'm Mohamed Badawy. I build distributed Java server systems, responsive cross-platform Flutter applications, and connected IoT hardware that perform with zero lag under real-world scale.
+          I'm Mohamed Badawy. I build distributed Java server architectures, high-performance Flutter mobile applications with Riverpod, and connected IoT microcontroller firmware that stay deterministic under scale.
         </p>
 
-        {/* Sentra-style Glowing Slider Pill Button */}
+        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
           <a
             href="#projects"
@@ -56,10 +56,10 @@ export function Hero() {
           >
             {/* Glowing neon green handle pill */}
             <span className="flex items-center justify-center px-4 py-2.5 rounded-full btn-neon text-xs font-bold font-mono tracking-tight mr-4">
-              Explore 5 Projects
+              Explore 3 Tiers
             </span>
             <span className="text-xs font-mono text-white/70 group-hover:text-white transition-colors flex items-center gap-2">
-              <span>View Live Builds</span>
+              <span>View Production Builds</span>
               <ArrowRight className="w-4 h-4 text-[#00ff87] group-hover:translate-x-1.5 transition-transform" />
             </span>
           </a>
@@ -74,20 +74,21 @@ export function Hero() {
           </a>
         </div>
 
-        {/* Sentra-style Metrics Row (500+ / 300+ / 12) */}
+        {/* Metrics Row: DevRoom 10 Commissions 5.0/5.0 & 20.0 TPS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 rounded-3xl bg-[#0d1217]/70 border border-white/10 backdrop-blur-xl shadow-2xl mb-12">
           <div className="text-center p-2">
-            <div className="font-heading font-bold text-2xl sm:text-3xl text-[#00ff87] tabular">
-              20.0 TPS
+            <div className="font-heading font-bold text-2xl sm:text-3xl text-[#00ff87] tabular flex items-center justify-center gap-1">
+              <Star className="w-5 h-5 fill-[#00ff87] text-[#00ff87]" />
+              <span>5.0 / 5.0</span>
             </div>
-            <div className="text-xs font-mono text-white/60 mt-1">Zero Server Tick Loss</div>
+            <div className="text-xs font-mono text-white/60 mt-1">10 DevRoom Commissions</div>
           </div>
 
           <div className="text-center p-2 border-l border-white/10">
             <div className="font-heading font-bold text-2xl sm:text-3xl text-white tabular">
-              4.83 / 5.0
+              20.0 TPS
             </div>
-            <div className="text-xs font-mono text-white/60 mt-1">Client Satisfaction</div>
+            <div className="text-xs font-mono text-white/60 mt-1">Zero Server Tick Loss</div>
           </div>
 
           <div className="text-center p-2 border-l border-white/10">

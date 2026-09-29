@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LaptopMockup } from './LaptopMockup';
 import { PhoneMockup } from './PhoneMockup';
 import { ServerMockup } from './ServerMockup';
+import { AgriTelemetryDashboard } from './AgriTelemetryDashboard';
+import { InnovatronicsPcbCanvas } from './InnovatronicsPcbCanvas';
+import { SmartHomePhoneUI } from './SmartHomePhoneUI';
 import { GithubIcon } from './Icons';
 import {
   Globe,
@@ -10,6 +13,10 @@ import {
   CheckCircle2,
   ExternalLink,
   Sparkles,
+  BookOpen,
+  ShieldCheck,
+  Pause,
+  Play,
 } from 'lucide-react';
 
 export function ThreeTierShowcase() {
@@ -17,88 +24,124 @@ export function ThreeTierShowcase() {
   const [mobileIdx, setMobileIdx] = useState(0);
   const [backendIdx, setBackendIdx] = useState(0);
 
+  const [isWebHovered, setIsWebHovered] = useState(false);
+  const [isMobileHovered, setIsMobileHovered] = useState(false);
+  const [isBackendHovered, setIsBackendHovered] = useState(false);
+
+  // Auto-scroll / cycle projects over time (8 seconds per project)
+  useEffect(() => {
+    if (isWebHovered) return;
+    const timer = setInterval(() => {
+      setWebIdx((prev) => (prev + 1) % 3);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [isWebHovered]);
+
+  useEffect(() => {
+    if (isMobileHovered) return;
+    const timer = setInterval(() => {
+      setMobileIdx((prev) => (prev + 1) % 3);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [isMobileHovered]);
+
+  useEffect(() => {
+    if (isBackendHovered) return;
+    const timer = setInterval(() => {
+      setBackendIdx((prev) => (prev + 1) % 4);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [isBackendHovered]);
+
   // 1. Full-Stack Web Projects (Displayed on 3D Laptop)
   const webProjects = [
     {
       id: 'ieee-web',
       tabName: 'IEEE Student Portal',
       title: 'IEEE Student Branch Portal & Dashboard',
-      subtitle: 'Full-Stack Web Architecture • Member Management',
-      role: 'Lead Full-Stack Web Architect',
+      subtitle: 'Full-Stack Web Architecture • Member Management System',
+      role: 'Webmaster & Lead Architect',
       organization: 'IEEE ECU Student Branch',
+      orgUrl: 'https://facebook.com/IEEE.ECU.SB',
       summary:
-        'Complete web portal for the university IEEE branch. Powers student onboarding, committee permissions, event registrations, and QR-code attendance check-ins for 500+ active members without downtime.',
+        'Official digital platform and member portal for the university IEEE branch. Powers student onboarding, committee permissions, event registrations, and QR-code attendance check-ins for 500+ active members without downtime.',
       highlights: [
-        'Secure JWT authentication with role-based access for committee leads and students.',
+        'Secure JWT authentication with role-based access for executive leads and students.',
         'High-density responsive dashboard managing event logs, attendance, and member profiles.',
-        'Zero unhandled crashes across 30+ service endpoints with clean client error messages.',
+        'Zero unhandled crashes across 30+ service endpoints with clean RFC 7807 error messages.',
       ],
       stats: [
         { label: 'Active Members', value: '500+' },
         { label: 'API Endpoints', value: '30+' },
-        { label: 'Uptime', value: '99.9%' },
+        { label: 'Branch Role', value: 'Webmaster' },
       ],
-      tags: ['React', 'TypeScript', 'Tailwind CSS', 'Spring Boot API', 'MongoDB', 'Vite'],
+      tags: ['Java 21', 'Spring Boot 3', 'MongoDB', 'JWT Auth', 'REST API', 'Docker'],
       image: '/projects/ieee_dashboard.png',
-      url: 'https://ieee.ecu.edu.eg',
-      badge: 'Production Portal',
+      url: 'https://facebook.com/IEEE.ECU.SB',
+      badge: 'Production Web Portal',
       statLabel: 'Active Members',
       statValue: '512 Registered',
       github: 'https://github.com/M7MEDpro/IEEE-ECU-SB-Platform',
+      buttonType: 'github',
+      buttonText: 'View GitHub Repository',
     },
     {
       id: 'pcb-web',
       tabName: 'Innovatronics PCB Web',
       title: 'Innovatronics Interactive PCB Web Platform',
-      subtitle: 'Hardware-Accelerated Vector Graphics & Algorithmic Routing',
+      subtitle: 'Procedural CustomPainter Line-Routing • 60 FPS Canvas',
       role: 'Lead Frontend & Graphics Engineer',
       organization: 'Innovatronics Tech',
+      orgUrl: 'https://github.com/M7MEDpro',
       summary:
-        'Interactive web application featuring an animated printed circuit board (PCB) organizational tree. Coded custom mathematical line-routing algorithms in Flutter CustomPainter to draw circuit board traces dynamically.',
+        'Interactive web application featuring an animated printed circuit board (PCB) organizational tree. Coded custom mathematical line-routing algorithms in Flutter CustomPainter to draw circuit board traces dynamically at 60 FPS without DOM overhead.',
       highlights: [
-        'Custom line-routing algorithm with 45° angle bends and bezier smoothing.',
-        'Solid 60 FPS vector animations running smoothly on desktop and mobile touchscreens.',
-        'Pure web canvas rendering with zero heavy third-party DOM libraries.',
+        'Custom line-routing algorithm calculating 45° angle bends and bezier smoothing.',
+        'Solid 60 FPS vector animations running smoothly across desktop and mobile screens.',
+        'Pure web canvas rendering with zero heavy third-party graphics frameworks.',
       ],
       stats: [
-        { label: 'Frame Rate', value: '60 FPS' },
-        { label: 'Canvas Engine', value: 'Custom' },
+        { label: 'Frame Rate', value: '60 FPS Solid' },
+        { label: 'Canvas Engine', value: 'CustomPainter' },
         { label: 'Trace Routing', value: '45° Bezier' },
       ],
       tags: ['Flutter Web', 'Dart', 'CustomPainter', 'Vector Canvas', 'Algorithmic Routing'],
-      image: '/assets/projects/innovationics_tech.png',
-      url: 'https://innovatronics.tech',
+      url: 'https://github.com/M7MEDpro',
       badge: 'CustomPainter Canvas',
       statLabel: 'Rendering',
       statValue: '60 FPS Solid',
-      github: 'https://github.com/M7MEDpro',
+      buttonType: 'live',
+      buttonText: 'Explore Interactive Canvas',
+      liveUrl: 'https://github.com/M7MEDpro',
     },
     {
       id: 'agri-monitor',
       tabName: 'Agricultural Telemetry',
       title: 'Agricultural Monitoring & Automation Enabler',
-      subtitle: 'Desktop Telemetry Feedback System • IEEE ITC-Egypt 2025',
+      subtitle: 'Feedback-Based Desktop Remotely Controlled System • IEEE ITC-Egypt 2025',
       role: 'Research Co-Author & Firmware Engineer',
-      organization: 'IEEE ITC-Egypt Conference Paper',
+      organization: 'IEEE ITC-Egypt 2025 Conference',
+      orgUrl: 'https://doi.org/10.1109/ITC-Egypt66095.2025.11186572',
       summary:
-        'Feedback-based desktop remotely controlled greenhouse monitoring system integrating Arduino microcontrollers with DHT11 and LDR sensors for real-time environmental control. Published in IEEE Xplore (DOI: 10.1109/ITC-Egypt66095.2025.11186572).',
+        'Automated feedback-based greenhouse monitoring system integrating Arduino microcontrollers with DHT11 and LDR sensors for real-time environmental control. Published in IEEE Xplore proceedings (DOI: 10.1109/ITC-Egypt66095.2025.11186572).',
       highlights: [
         'Real-time desktop telemetry loop transmitting microclimate metrics to the control console.',
-        'Closed-loop feedback triggers automated ventilation, lighting, and irrigation relays.',
-        'Published in IEEE proceedings after rigorous peer review for deterministic sensor loops.',
+        'Deterministic closed-loop feedback triggers automated ventilation, lighting, and irrigation relays.',
+        'Published in IEEE Xplore after peer-review acceptance at the International Telecommunications Conference.',
       ],
       stats: [
-        { label: 'Publication', value: 'IEEE 2025' },
-        { label: 'Hardware', value: 'Arduino / Sensors' },
-        { label: 'Loop Control', value: 'Realtime' },
+        { label: 'Publication', value: 'IEEE Xplore' },
+        { label: 'Hardware', value: 'Arduino Uno' },
+        { label: 'Loop Control', value: 'Deterministic' },
       ],
-      tags: ['Desktop App', 'Embedded C++', 'Arduino', 'Sensor Integration', 'IEEE Research'],
-      image: '/projects/user_project_banner.png',
+      tags: ['Desktop App', 'Embedded C++', 'Arduino Uno', 'DHT11 & LDR Sensors', 'IEEE Research'],
       url: 'https://doi.org/10.1109/ITC-Egypt66095.2025.11186572',
-      badge: 'Published Research',
+      badge: 'Published in IEEE Xplore',
       statLabel: 'Paper DOI',
       statValue: '10.1109/ITC',
-      github: 'https://github.com/M7MEDpro',
+      buttonType: 'doi',
+      buttonText: 'Read IEEE Publication (DOI)',
+      doiUrl: 'https://doi.org/10.1109/ITC-Egypt66095.2025.11186572',
     },
   ];
 
@@ -108,53 +151,56 @@ export function ThreeTierShowcase() {
       id: 'messio-mobile',
       tabName: 'Smart Home IoT',
       title: 'Projecto-Messio Smart Home IoT Hub',
-      subtitle: 'ESP32 Firmware & Realtime Flutter Mobile Controller',
+      subtitle: 'ESP32 Microcontroller Firmware & Flutter Mobile Controller',
       role: 'Embedded Firmware & Flutter Engineer',
       organization: 'Applied IoT Project',
+      orgUrl: 'https://github.com/M7MEDpro/Projecto-Messio',
       summary:
-        'End-to-end home automation connecting ESP32 microcontroller sensors to a custom Flutter mobile app over local MQTT. Relays and environmental sensors toggle in under 40ms with full offline state fallback.',
+        'End-to-end home automation system connecting ESP32 microcontroller sensors to a custom Flutter mobile app over local MQTT. Relays and environmental sensors toggle in under 40ms with full offline state fallback.',
       highlights: [
-        'Non-blocking event-driven C++ firmware running on ESP32 microcontrollers with hardware debounce filters.',
+        'Non-blocking event-driven C++ firmware running on ESP32 with hardware debounce filters.',
         'Sub-40ms local round-trip latency over MQTT message broker for instant lighting and climate adjustments.',
-        'Local offline buffer keeping home devices operational even when internet connection drops.',
+        'Local offline state buffer keeping home appliances operational even when connection drops.',
       ],
       stats: [
         { label: 'Relay Latency', value: '<40ms' },
-        { label: 'Microcontroller', value: 'ESP32' },
+        { label: 'Microcontroller', value: 'ESP32 C++' },
         { label: 'Protocol', value: 'MQTT / WS' },
       ],
-      tags: ['Flutter', 'Dart', 'C++ / ESP32', 'MQTT Broker', 'WebSockets', 'Hardware Relays'],
-      image: '/assets/projects/smart_home_iot.png',
+      tags: ['Flutter', 'Riverpod', 'C++ / ESP32', 'MQTT Broker', 'WebSockets', 'Hardware Relays'],
       badge: 'Flutter + ESP32',
       statLabel: 'Ping Loop',
       statValue: '38ms',
       github: 'https://github.com/M7MEDpro/Projecto-Messio',
+      buttonType: 'github',
+      buttonText: 'View GitHub Repository',
     },
     {
       id: 'thauma-mobile',
       tabName: 'Thauma Leaderboard',
-      title: 'Thauma Leaderboard & Gamification App',
-      subtitle: 'High-FPS Animated Ranking & Trophy App',
+      title: 'Thauma Convention & Gamification App',
+      subtitle: 'High-FPS Animated Ranking, Hall of Fame & Trophies',
       role: 'Mobile Frontend Engineer',
       organization: 'Thauma Platform',
+      orgUrl: 'https://github.com/M7MEDpro',
       summary:
-        'Mobile gamification application featuring real-time hall-of-fame leaderboards, achievement trophies, and responsive ranking lists running at solid 60 FPS.',
+        'Mobile gamification application featuring real-time hall-of-fame leaderboards, achievement trophies, and responsive ranking lists running at solid 60 FPS with reactive Riverpod state.',
       highlights: [
         'Butter-smooth 60 FPS animations with hardware-accelerated particle effects and staggered list transitions.',
         'Live ranking synchronization updating player score deltas and trophy unlock badges instantly.',
         'Adaptive touch-friendly ergonomics optimized for one-handed mobile navigation.',
       ],
       stats: [
-        { label: 'Animation', value: '60 FPS' },
+        { label: 'Animation', value: '60 FPS Solid' },
         { label: 'Platform', value: 'Flutter' },
-        { label: 'State', value: 'Riverpod' },
+        { label: 'State Mgmt', value: 'Riverpod' },
       ],
-      tags: ['Flutter', 'Dart', '60 FPS Animations', 'Riverpod', 'Clean Architecture'],
+      tags: ['Flutter', 'Dart', 'Riverpod', '60 FPS Animations', 'Clean Architecture'],
       image: '/assets/projects/thauma_09_hall_of_fame_leaderboard.png',
       badge: 'Hall of Fame UI',
       statLabel: 'Render Speed',
       statValue: '60 FPS',
-      github: 'https://github.com/M7MEDpro',
+      buttonType: 'none',
     },
     {
       id: 'healthlink-mobile',
@@ -163,8 +209,9 @@ export function ThreeTierShowcase() {
       subtitle: 'Patient Records & Encrypted SQLCipher Database',
       role: 'Cross-Platform Engineer',
       organization: 'Clinical Informatics Project',
+      orgUrl: 'https://github.com/M7MEDpro',
       summary:
-        'Healthcare mobile application for patient vital statistics, appointment queues, and diagnostic histories with encrypted local database synchronization.',
+        'Healthcare application suite for patient vital statistics, appointment queues, and diagnostic histories with encrypted local database synchronization.',
       highlights: [
         'Local SQLite database encrypted with SQLCipher for confidential records and instant offline search.',
         'Tailored touch ergonomics designed for clinical handheld tablets and smartphones.',
@@ -175,28 +222,61 @@ export function ThreeTierShowcase() {
         { label: 'Sync', value: 'Realtime' },
         { label: 'Target', value: 'Mobile/Tablet' },
       ],
-      tags: ['Flutter Mobile', 'C++ Core', 'SQLCipher Encrypted', 'State Management'],
+      tags: ['Flutter Mobile', 'SQLite / SQLCipher', 'C++ Core', 'State Management'],
       image: '/assets/projects/healthlink_medical.png',
       badge: 'Encrypted Vitals',
       statLabel: 'Database',
       statValue: 'SQLCipher',
-      github: 'https://github.com/M7MEDpro',
+      buttonType: 'none',
     },
   ];
 
-  // 3. High-Performance Java Backend & Spring Boot (Displayed on 3D Server Rack)
+  // 3. High-Performance Java Backend & Systems (Displayed on 3D Server Rack)
   const backendProjects = [
+    {
+      id: 'devroom-systems',
+      tabName: 'DevRoom Systems Core',
+      title: 'DevRoom Distributed Gaming Networks & Webhook Infrastructure',
+      subtitle: 'Spigot / Paper / Velocity • 10 Commissions (5.0 / 5.0 Rating)',
+      role: 'Java Systems Developer',
+      organization: 'DevRoom (Italy • Remote)',
+      orgUrl: 'https://devroom.it',
+      summary:
+        'High-performance distributed Java systems for enterprise gaming networks, architecting distributed data pipelines, cross-server networking layers, and zero-tick-loss transaction webhooks. Completed 10 commercial commissions with a verified 5.0 / 5.0 client feedback score.',
+      highlights: [
+        'Completed 10 commercial client commissions with a verified 5.0 / 5.0 average feedback rating.',
+        'Engineered cross-server networking layers bridging game instances with centralized microservices.',
+        'Integrated MongoDB and MySQL connection pools with zero-latency asynchronous write queues.',
+        'Standardized RESTful webhook notification handlers for automated transaction verification.',
+      ],
+      stats: [
+        { label: 'Client Feedback', value: '5.0 / 5.0' },
+        { label: 'Commissions', value: '10 Done' },
+        { label: 'Tick Rate', value: '20.0 TPS' },
+      ],
+      tags: ['Java 21', 'Spigot / Paper API', 'Velocity Proxy', 'MongoDB', 'MySQL', 'Async Concurrency'],
+      endpointsCount: '10 Commissions Done',
+      engine: 'Java 21 • Paper / Velocity',
+      syncLatency: '5.0 / 5.0 Rating',
+      statLabel: 'Commissions',
+      statValue: '10 Completed',
+      badge: 'DevRoom Active Role',
+      buttonType: 'org',
+      buttonText: 'Visit DevRoom Platform',
+      orgButtonUrl: 'https://devroom.it',
+    },
     {
       id: 'spring-backend',
       tabName: 'Spring Boot 3 Core',
       title: 'IEEE ECU Core Backend API',
       subtitle: 'Spring Boot 3.2 • MongoDB • JWT RBAC Architecture',
-      role: 'Lead Backend Systems Architect',
+      role: 'Webmaster & Lead Backend Architect',
       organization: 'IEEE ECU Student Branch',
+      orgUrl: 'https://facebook.com/IEEE.ECU.SB',
       summary:
-        'Enterprise Spring Boot 3 backend architecture powering student registrations, QR attendance, and committee permissions. Clean layered domain model built for reliability and zero crashes.',
+        'Enterprise Spring Boot 3 backend architecture powering student registrations, QR attendance, and committee permissions. Clean layered domain model built for reliability and zero unhandled crashes.',
       highlights: [
-        'Domain-Driven Design (DDD) cleanly separating authentication, attendance logs, and event registries into decoupled service domains.',
+        'Domain-Driven Design cleanly separating authentication, attendance logs, and event registries into decoupled service domains.',
         'Cryptographically salted JWT authorization tokens with role-based permissions (Students, Leads, Admins).',
         'RFC 7807 problem details handler guaranteeing structured, actionable error payloads across 30+ service endpoints.',
       ],
@@ -213,34 +293,39 @@ export function ThreeTierShowcase() {
       statValue: '482 / 500',
       badge: 'Production Backend',
       github: 'https://github.com/M7MEDpro/IEEE-ECU-SB-Platform',
+      buttonType: 'github',
+      buttonText: 'View GitHub Repository',
     },
     {
-      id: 'java-distributed',
-      tabName: 'Moderation Server Core',
-      title: 'High-Concurrency Java Server Core (PunishmentSystem)',
-      subtitle: 'Non-Blocking Async Queues • Redis Pub/Sub Synchronization',
-      role: 'Java Systems Developer',
-      organization: 'Rollerite LLC (Commercial Contract)',
+      id: 'punishment-backend',
+      tabName: 'PunishmentSystem Core',
+      title: 'PunishmentSystem Server Core & Selective Caching',
+      subtitle: 'Non-Blocking Async Queues • 80% Memory Reduction • Redis Sync',
+      role: 'Systems Developer',
+      organization: 'Rollerite LLC / DevRoom',
+      orgUrl: 'https://rollerite.com',
       summary:
-        'High-performance distributed Java server system handling non-blocking player moderation, bans, mutes, and transaction queues across distributed server proxy nodes without tick loss.',
+        'High-performance player moderation server core with async database operations and an intelligent selective-caching architecture, reducing memory usage by 80% and achieving sub-1ms checks with a 95%+ cache hit rate.',
       highlights: [
         'Asynchronous worker threads completely decoupling disk I/O, SQL, and Redis operations from the main server loop (20.0 TPS solid).',
         'Distributed cross-server state propagation synchronizing penalty actions within 15ms via Redis pub/sub channels.',
-        'Dual-layer connection pooling (HikariCP + Redis) with automatic offline reconciliation and fallback query buffers.',
+        'Multi-database architecture supporting SQLite, MySQL, and MongoDB with custom third-party plugin API.',
       ],
       stats: [
         { label: 'Server Tick Rate', value: '20.0 TPS' },
-        { label: 'Cross-Node Sync', value: '<15ms' },
-        { label: 'Commissions', value: '8 Delivered' },
+        { label: 'Memory Reduced', value: '80%' },
+        { label: 'Cache Hit Rate', value: '95%+' },
       ],
-      tags: ['Java 21', 'Distributed Systems', 'Redis Pub/Sub', 'MySQL', 'HikariCP', 'Async Queues'],
-      endpointsCount: 'Multi-Server Proxy',
+      tags: ['Java 21', 'Paper API', 'Redis Pub/Sub', 'SQLite', 'MySQL', 'MongoDB', 'Async Queues'],
+      endpointsCount: 'Sub-1ms Checks',
       engine: 'Java 21 • Redis • HikariCP',
       syncLatency: '<15ms Sync',
       statLabel: 'Server Tick Rate',
       statValue: '20.0 TPS',
-      badge: 'Rollerite Commercial',
+      badge: 'Production Core',
       github: 'https://github.com/M7MEDpro/PunishmentSystem',
+      buttonType: 'github',
+      buttonText: 'View GitHub Repository',
     },
     {
       id: 'economy-backend',
@@ -249,8 +334,9 @@ export function ThreeTierShowcase() {
       subtitle: 'Multi-Threaded Financial Engine • Dual Database Persistence',
       role: 'Backend Systems Developer',
       organization: 'Commercial Server Systems',
+      orgUrl: 'https://rollerite.com',
       summary:
-        'Modern high-concurrency transaction engine with dual database persistence (MySQL + MongoDB), ACID-compliant ledger logging, and thread-safe Redis cache invalidation.',
+        'High-concurrency transaction engine with dual database persistence (MySQL + MongoDB), ACID-compliant ledger logging, and thread-safe Redis cache invalidation.',
       highlights: [
         'Multi-threaded transaction pipeline eliminating balance race conditions and double-spending vulnerabilities.',
         'Dual-persistence driver archiving audit records to MongoDB while maintaining relational balances in MySQL.',
@@ -269,34 +355,8 @@ export function ThreeTierShowcase() {
       statValue: '10K+ Ops/s',
       badge: 'Financial Pipeline',
       github: 'https://github.com/M7MEDpro/EconomySystem',
-    },
-    {
-      id: 'teleport-backend',
-      tabName: 'Spatial Persistence',
-      title: 'Distributed Spatial Persistence & Teleportation Engine',
-      subtitle: 'MongoDB Replica Indexing • Asynchronous Coordinate Serialization',
-      role: 'Systems Backend Developer',
-      organization: 'Distributed Network Project',
-      summary:
-        'High-speed distributed coordinate serialization and session persistence engine with MongoDB replica sets, asynchronous query buffers, and sub-1ms state lookups across network nodes.',
-      highlights: [
-        'Asynchronous coordinate buffer eliminating server main thread stalls during mass player spatial transitions.',
-        'MongoDB document indexing for rapid multi-dimensional coordinate and warp retrieval.',
-        'Network session failover restoring last known spatial coordinates if a node disconnects.',
-      ],
-      stats: [
-        { label: 'Spatial Lookup', value: '<1ms' },
-        { label: 'Database', value: 'MongoDB Replica' },
-        { label: 'Concurrency', value: 'Async Buffer' },
-      ],
-      tags: ['Java 21', 'MongoDB', 'Async Buffers', 'Spatial Indexing', 'High Concurrency'],
-      endpointsCount: 'Spatial Shards',
-      engine: 'Java 21 • MongoDB Replica',
-      syncLatency: '<1ms Lookup',
-      statLabel: 'Lookup Latency',
-      statValue: '<1ms Cache',
-      badge: 'Distributed Storage',
-      github: 'https://github.com/M7MEDpro/TeleportationPlugin',
+      buttonType: 'github',
+      buttonText: 'View GitHub Repository',
     },
   ];
 
@@ -336,18 +396,30 @@ export function ThreeTierShowcase() {
         {/* ========================================================================= */}
         {/* TIER 1: FULL-STACK WEBSITE & WEB ARCHITECTURE (Laptop on Left, Info on Right) */}
         {/* ========================================================================= */}
-        <div className="mb-32 md:mb-44 relative">
-          <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/10">
-            <div className="w-10 h-10 rounded-xl bg-[#00ff87]/15 border border-[#00ff87]/30 flex items-center justify-center text-[#00ff87]">
-              <Globe className="w-5 h-5" />
+        <div
+          className="mb-32 md:mb-44 relative"
+          onMouseEnter={() => setIsWebHovered(true)}
+          onMouseLeave={() => setIsWebHovered(false)}
+        >
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#00ff87]/15 border border-[#00ff87]/30 flex items-center justify-center text-[#00ff87]">
+                <Globe className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xs font-mono text-[#00ff87] uppercase tracking-wider font-semibold">
+                  Tier 01 • Web Platform & Research
+                </span>
+                <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white">
+                  Full-Stack Website & Web Architecture
+                </h3>
+              </div>
             </div>
-            <div>
-              <span className="text-xs font-mono text-[#00ff87] uppercase tracking-wider font-semibold">
-                Tier 01 • Web Platform
-              </span>
-              <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white">
-                Full-Stack Website & Web Architecture
-              </h3>
+
+            {/* Auto-cycle indicator badge */}
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-white/50">
+              {isWebHovered ? <Pause className="w-3 h-3 text-[#f59e0b]" /> : <Play className="w-3 h-3 text-[#00ff87] animate-pulse" />}
+              <span>{isWebHovered ? 'Paused on Hover' : 'Auto-Cycling'}</span>
             </div>
           </div>
 
@@ -356,14 +428,26 @@ export function ThreeTierShowcase() {
             <div className="lg:col-span-6 flex justify-center">
               <LaptopMockup
                 title={currentWeb.title}
-                image={currentWeb.image}
                 url={currentWeb.url}
                 badge={currentWeb.badge}
                 statLabel={currentWeb.statLabel}
                 statValue={currentWeb.statValue}
                 accentColor="#00ff87"
                 tiltDirection="left"
-              />
+              >
+                {/* Custom Interactive UIs */}
+                {currentWeb.id === 'agri-monitor' ? (
+                  <AgriTelemetryDashboard />
+                ) : currentWeb.id === 'pcb-web' ? (
+                  <InnovatronicsPcbCanvas />
+                ) : (
+                  <img
+                    src={currentWeb.image}
+                    alt={currentWeb.title}
+                    className="w-full h-full object-cover object-top"
+                  />
+                )}
+              </LaptopMockup>
             </div>
 
             {/* Right Column: Project Details & Web Stack */}
@@ -374,13 +458,17 @@ export function ThreeTierShowcase() {
                   <button
                     key={p.id}
                     onClick={() => setWebIdx(idx)}
-                    className={`flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-mono font-semibold transition-all ${
+                    className={`relative flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-mono font-semibold transition-all overflow-hidden ${
                       webIdx === idx
                         ? 'bg-[#151c24] text-[#00ff87] border border-[#00ff87]/40 shadow-[0_0_15px_rgba(0,255,135,0.2)]'
                         : 'text-[#8b99ad] hover:text-white'
                     }`}
                   >
                     0{idx + 1} {p.tabName}
+                    {/* Animated Progress Underline for Active Tab */}
+                    {webIdx === idx && !isWebHovered && (
+                      <span className="absolute bottom-0 left-0 h-0.5 bg-[#00ff87] w-full animate-[progress_8s_linear]" />
+                    )}
                   </button>
                 ))}
               </div>
@@ -389,9 +477,15 @@ export function ThreeTierShowcase() {
               <div className="p-6 sm:p-8 rounded-3xl bg-[#0e1217] border border-white/10 shadow-2xl space-y-5">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-xs font-mono text-[#00ff87]">
-                      {currentWeb.organization}
-                    </span>
+                    <a
+                      href={currentWeb.orgUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-mono text-[#00ff87] hover:underline flex items-center gap-1 group"
+                    >
+                      <span>{currentWeb.organization}</span>
+                      <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </a>
                     <span className="text-xs font-medium text-white/80 bg-white/5 px-2.5 py-1 rounded-md border border-white/10">
                       {currentWeb.role}
                     </span>
@@ -448,18 +542,45 @@ export function ThreeTierShowcase() {
                   </div>
                 </div>
 
-                {/* Action Link */}
+                {/* Action Link (Conditional & Verified) */}
                 <div className="pt-2">
-                  <a
-                    href={currentWeb.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-neon text-xs font-semibold"
-                  >
-                    <GithubIcon className="w-4 h-4" />
-                    <span>View Repository & Source</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                  {currentWeb.buttonType === 'github' && currentWeb.github && (
+                    <a
+                      href={currentWeb.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-neon text-xs font-semibold"
+                    >
+                      <GithubIcon className="w-4 h-4" />
+                      <span>{currentWeb.buttonText}</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+
+                  {currentWeb.buttonType === 'doi' && currentWeb.doiUrl && (
+                    <a
+                      href={currentWeb.doiUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#00ff87]/20 border border-[#00ff87]/40 text-[#00ff87] hover:bg-[#00ff87]/30 text-xs font-semibold shadow-[0_0_15px_rgba(0,255,135,0.2)] transition-all"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      <span>{currentWeb.buttonText}</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+
+                  {currentWeb.buttonType === 'live' && currentWeb.liveUrl && (
+                    <a
+                      href={currentWeb.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#f59e0b]/20 border border-[#f59e0b]/40 text-[#f59e0b] hover:bg-[#f59e0b]/30 text-xs font-semibold transition-all"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span>{currentWeb.buttonText}</span>
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -469,18 +590,29 @@ export function ThreeTierShowcase() {
         {/* ========================================================================= */}
         {/* TIER 2: FULL-STACK MOBILE & HARDWARE IOT (Info on Left, Phone on Right) */}
         {/* ========================================================================= */}
-        <div className="mb-32 md:mb-44 relative">
-          <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/10">
-            <div className="w-10 h-10 rounded-xl bg-[#00ff87]/15 border border-[#00ff87]/30 flex items-center justify-center text-[#00ff87]">
-              <Smartphone className="w-5 h-5" />
+        <div
+          className="mb-32 md:mb-44 relative"
+          onMouseEnter={() => setIsMobileHovered(true)}
+          onMouseLeave={() => setIsMobileHovered(false)}
+        >
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#00ff87]/15 border border-[#00ff87]/30 flex items-center justify-center text-[#00ff87]">
+                <Smartphone className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xs font-mono text-[#00ff87] uppercase tracking-wider font-semibold">
+                  Tier 02 • Mobile & Embedded Hardware
+                </span>
+                <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white">
+                  Full-Stack Mobile & Connected IoT
+                </h3>
+              </div>
             </div>
-            <div>
-              <span className="text-xs font-mono text-[#00ff87] uppercase tracking-wider font-semibold">
-                Tier 02 • Mobile & Hardware
-              </span>
-              <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white">
-                Full-Stack Mobile & Connected IoT
-              </h3>
+
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-white/50">
+              {isMobileHovered ? <Pause className="w-3 h-3 text-[#f59e0b]" /> : <Play className="w-3 h-3 text-[#00ff87] animate-pulse" />}
+              <span>{isMobileHovered ? 'Paused on Hover' : 'Auto-Cycling'}</span>
             </div>
           </div>
 
@@ -493,13 +625,16 @@ export function ThreeTierShowcase() {
                   <button
                     key={p.id}
                     onClick={() => setMobileIdx(idx)}
-                    className={`flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-mono font-semibold transition-all ${
+                    className={`relative flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-mono font-semibold transition-all overflow-hidden ${
                       mobileIdx === idx
                         ? 'bg-[#151c24] text-[#00ff87] border border-[#00ff87]/40 shadow-[0_0_15px_rgba(0,255,135,0.2)]'
                         : 'text-[#8b99ad] hover:text-white'
                     }`}
                   >
                     0{idx + 1} {p.tabName}
+                    {mobileIdx === idx && !isMobileHovered && (
+                      <span className="absolute bottom-0 left-0 h-0.5 bg-[#00ff87] w-full animate-[progress_8s_linear]" />
+                    )}
                   </button>
                 ))}
               </div>
@@ -508,9 +643,15 @@ export function ThreeTierShowcase() {
               <div className="p-6 sm:p-8 rounded-3xl bg-[#0e1217] border border-white/10 shadow-2xl space-y-5">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-xs font-mono text-[#00ff87]">
-                      {currentMobile.organization}
-                    </span>
+                    <a
+                      href={currentMobile.orgUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-mono text-[#00ff87] hover:underline flex items-center gap-1 group"
+                    >
+                      <span>{currentMobile.organization}</span>
+                      <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </a>
                     <span className="text-xs font-medium text-white/80 bg-white/5 px-2.5 py-1 rounded-md border border-white/10">
                       {currentMobile.role}
                     </span>
@@ -569,16 +710,23 @@ export function ThreeTierShowcase() {
 
                 {/* Action Link */}
                 <div className="pt-2">
-                  <a
-                    href={currentMobile.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-neon text-xs font-semibold"
-                  >
-                    <GithubIcon className="w-4 h-4" />
-                    <span>View Repository & Source</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                  {currentMobile.buttonType === 'github' && currentMobile.github ? (
+                    <a
+                      href={currentMobile.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-neon text-xs font-semibold"
+                    >
+                      <GithubIcon className="w-4 h-4" />
+                      <span>{currentMobile.buttonText}</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  ) : (
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-white/70">
+                      <ShieldCheck className="w-4 h-4 text-[#00ff87]" />
+                      <span>Production Application Release</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -587,32 +735,53 @@ export function ThreeTierShowcase() {
             <div className="lg:col-span-6 flex justify-center order-1 lg:order-2">
               <PhoneMockup
                 title={currentMobile.title}
-                image={currentMobile.image}
                 badge={currentMobile.badge}
                 statLabel={currentMobile.statLabel}
                 statValue={currentMobile.statValue}
                 accentColor="#00ff87"
                 tiltDirection="right"
-              />
+              >
+                {/* Custom Interactive Mobile UI for Messio */}
+                {currentMobile.id === 'messio-mobile' ? (
+                  <SmartHomePhoneUI />
+                ) : (
+                  <img
+                    src={currentMobile.image}
+                    alt={currentMobile.title}
+                    className="w-full h-full object-cover object-top"
+                  />
+                )}
+              </PhoneMockup>
             </div>
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* TIER 3: HIGH-PERFORMANCE JAVA BACKEND & SPRING BOOT (Server Rack on Left) */}
+        {/* TIER 3: HIGH-PERFORMANCE JAVA BACKEND & SYSTEMS (Server Rack on Left) */}
         {/* ========================================================================= */}
-        <div className="relative">
-          <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/10">
-            <div className="w-10 h-10 rounded-xl bg-[#00ff87]/15 border border-[#00ff87]/30 flex items-center justify-center text-[#00ff87]">
-              <Server className="w-5 h-5" />
+        <div
+          className="relative"
+          onMouseEnter={() => setIsBackendHovered(true)}
+          onMouseLeave={() => setIsBackendHovered(false)}
+        >
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#00ff87]/15 border border-[#00ff87]/30 flex items-center justify-center text-[#00ff87]">
+                <Server className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xs font-mono text-[#00ff87] uppercase tracking-wider font-semibold">
+                  Tier 03 • Server Systems & Concurrency
+                </span>
+                <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white">
+                  Java Backend & Distributed Server Systems
+                </h3>
+              </div>
             </div>
-            <div>
-              <span className="text-xs font-mono text-[#00ff87] uppercase tracking-wider font-semibold">
-                Tier 03 • Server Systems
-              </span>
-              <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white">
-                Java Backend & Spring Boot Systems
-              </h3>
+
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-white/50">
+              {isBackendHovered ? <Pause className="w-3 h-3 text-[#f59e0b]" /> : <Play className="w-3 h-3 text-[#00ff87] animate-pulse" />}
+              <span>{isBackendHovered ? 'Paused on Hover' : 'Auto-Cycling'}</span>
             </div>
           </div>
 
@@ -634,19 +803,22 @@ export function ThreeTierShowcase() {
 
             {/* Right Column: Project Details & Backend Stack */}
             <div className="lg:col-span-6 space-y-6">
-              {/* Project Switcher Tabs (4 Best Backend Projects from GitHub) */}
+              {/* Project Switcher Tabs */}
               <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-[#0e1217] border border-white/10">
                 {backendProjects.map((p, idx) => (
                   <button
                     key={p.id}
                     onClick={() => setBackendIdx(idx)}
-                    className={`flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-mono font-semibold transition-all ${
+                    className={`relative flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-mono font-semibold transition-all overflow-hidden ${
                       backendIdx === idx
                         ? 'bg-[#151c24] text-[#00ff87] border border-[#00ff87]/40 shadow-[0_0_15px_rgba(0,255,135,0.2)]'
                         : 'text-[#8b99ad] hover:text-white'
                     }`}
                   >
                     0{idx + 1} {p.tabName}
+                    {backendIdx === idx && !isBackendHovered && (
+                      <span className="absolute bottom-0 left-0 h-0.5 bg-[#00ff87] w-full animate-[progress_8s_linear]" />
+                    )}
                   </button>
                 ))}
               </div>
@@ -655,9 +827,15 @@ export function ThreeTierShowcase() {
               <div className="p-6 sm:p-8 rounded-3xl bg-[#0e1217] border border-white/10 shadow-2xl space-y-5">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-xs font-mono text-[#00ff87]">
-                      {currentBackend.organization}
-                    </span>
+                    <a
+                      href={currentBackend.orgUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-mono text-[#00ff87] hover:underline flex items-center gap-1 group"
+                    >
+                      <span>{currentBackend.organization}</span>
+                      <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </a>
                     <span className="text-xs font-medium text-white/80 bg-white/5 px-2.5 py-1 rounded-md border border-white/10">
                       {currentBackend.role}
                     </span>
@@ -716,16 +894,30 @@ export function ThreeTierShowcase() {
 
                 {/* Action Link */}
                 <div className="pt-2">
-                  <a
-                    href={currentBackend.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-neon text-xs font-semibold"
-                  >
-                    <GithubIcon className="w-4 h-4" />
-                    <span>View Repository & Source</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                  {currentBackend.buttonType === 'github' && currentBackend.github && (
+                    <a
+                      href={currentBackend.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-neon text-xs font-semibold"
+                    >
+                      <GithubIcon className="w-4 h-4" />
+                      <span>{currentBackend.buttonText}</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+
+                  {currentBackend.buttonType === 'org' && currentBackend.orgButtonUrl && (
+                    <a
+                      href={currentBackend.orgButtonUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#00ff87]/20 border border-[#00ff87]/40 text-[#00ff87] hover:bg-[#00ff87]/30 text-xs font-semibold shadow-[0_0_15px_rgba(0,255,135,0.2)] transition-all"
+                    >
+                      <span>{currentBackend.buttonText}</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

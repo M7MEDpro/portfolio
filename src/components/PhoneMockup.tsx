@@ -4,12 +4,13 @@ import { Wifi, Battery } from 'lucide-react';
 interface PhoneMockupProps {
   title: string;
   category?: string;
-  image: string;
+  image?: string;
   badge?: string;
   statLabel?: string;
   statValue?: string;
   accentColor?: string;
   tiltDirection?: 'left' | 'right';
+  children?: React.ReactNode;
 }
 
 export function PhoneMockup({
@@ -20,6 +21,7 @@ export function PhoneMockup({
   statValue = '<38ms',
   accentColor = '#00ff87',
   tiltDirection = 'right',
+  children,
 }: PhoneMockupProps) {
   const [currentTime, setCurrentTime] = useState('9:41');
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
@@ -123,34 +125,44 @@ export function PhoneMockup({
               </div>
             </div>
 
-            {/* Full-Height Screen Image Viewport */}
+            {/* Full-Height Screen Viewport (Interactive Custom UI OR High-Resolution Image + HUD Overlay) */}
             <div className="relative flex-1 w-full overflow-hidden flex flex-col justify-between">
-              {/* Actual Project Screenshot */}
-              <img
-                src={image}
-                alt={`${title} mobile preview`}
-                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
-                loading="lazy"
-              />
-
-              {/* Top and Bottom soft vignette overlays for readability */}
-              <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
-
-              {/* Bottom HUD Overlay */}
-              <div className="relative z-20 mt-auto p-3 m-2.5 rounded-2xl bg-[#090d12]/90 border border-white/10 backdrop-blur-md">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="px-2 py-0.5 rounded-md bg-[#00ff87]/20 text-[#00ff87] text-[10px] font-mono font-bold">
-                    {badge}
-                  </span>
-                  <span className="text-[10px] font-mono text-white/60">
-                    {statLabel}: <span className="text-[#00ff87] font-bold">{statValue}</span>
-                  </span>
+              {children ? (
+                <div className="w-full h-full relative z-10 overflow-hidden">
+                  {children}
                 </div>
-                <div className="text-xs font-semibold text-white truncate">
-                  {title}
-                </div>
-              </div>
+              ) : (
+                <>
+                  {/* Actual Project Screenshot */}
+                  {image && (
+                    <img
+                      src={image}
+                      alt={`${title} mobile preview`}
+                      className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
+                      loading="lazy"
+                    />
+                  )}
+
+                  {/* Top and Bottom soft vignette overlays for readability */}
+                  <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
+                  <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+
+                  {/* Bottom HUD Overlay */}
+                  <div className="relative z-20 mt-auto p-3 m-2.5 rounded-2xl bg-[#090d12]/90 border border-white/10 backdrop-blur-md">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="px-2 py-0.5 rounded-md bg-[#00ff87]/20 text-[#00ff87] text-[10px] font-mono font-bold">
+                        {badge}
+                      </span>
+                      <span className="text-[10px] font-mono text-white/60">
+                        {statLabel}: <span className="text-[#00ff87] font-bold">{statValue}</span>
+                      </span>
+                    </div>
+                    <div className="text-xs font-semibold text-white truncate">
+                      {title}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Bottom Home Indicator Bar */}
