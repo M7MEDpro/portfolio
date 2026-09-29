@@ -1,0 +1,198 @@
+[
+  {
+    "name": "AFKplugin",
+    "lang": "Java",
+    "desc": "A lightweight and efficient Minecraft Bukkit/Spigot plugin that automatically detects when players are Away From Keyboard (AFK) and notifies other players on the server.",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "Arduino-VB.NET-Serial-Communication-Interface",
+    "lang": "Visual Basic .NET",
+    "desc": "This project demonstrates how to build a robust two-way communication system between an **Arduino** and a **VB.NET Windows Forms application** using **serial communication** over USB.",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "EconomySystem",
+    "lang": "Java",
+    "desc": "A Modern Minecraft Economy Plugin",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "Gravity-Gauntlet",
+    "lang": "Java",
+    "desc": "A Minecraft plugin that brings the devastating gravitational abilities of Pain from Naruto to your server. Harness the forces of attraction and repulsion with a mystical gauntlet that bends reality to your will.",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "GUI-Local-Servers-Manager",
+    "lang": "Visual Basic .NET",
+    "desc": "A powerful, dark-themed desktop tool for managing multiple local Minecraft servers with ease.",
+    "stars": 1,
+    "fork": false
+  },
+  {
+    "name": "library-registry",
+    "lang": null,
+    "desc": "The Arduino Library Registry",
+    "stars": 0,
+    "fork": true
+  },
+  {
+    "name": "LifeSteal",
+    "lang": "Java",
+    "desc": "Transform combat with vampiric weapons that steal life from your enemies!",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "Lightning-Blade-Plugin",
+    "lang": "Java",
+    "desc": "Custom sword plugin that summons lightning strikes on right-click. Built with modern Bukkit APIs, Adventure components, and Imperat framework. Features configurable enchantments, cooldowns, and rich lore system. Strike with divine thunder.",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "M7MEDpro",
+    "lang": null,
+    "desc": null,
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "MagicScrolls",
+    "lang": "Java",
+    "desc": "Unleash the power of ancient magic with customizable scrolls that grant potion effects!",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "mms",
+    "lang": null,
+    "desc": null,
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "MOTD-Plugin",
+    "lang": "Java",
+    "desc": "A lightweight and intuitive Minecraft plugin that allows server administrators to view and update the Message of the Day (MOTD) dynamically",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "Player-Info-Tool",
+    "lang": "Java",
+    "desc": "A comprehensive Minecraft Bukkit plugin that allows administrators and authorized players to view detailed information about other players on the server. \u26a1",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "production_line_arduino",
+    "lang": "C++",
+    "desc": null,
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "Projecto-Messio",
+    "lang": "C++",
+    "desc": "Distributed IoT System: ESP32 Hardware Control + C++ Backend + Flutter Mobile",
+    "stars": 1,
+    "fork": false
+  },
+  {
+    "name": "PunishmentSystem",
+    "lang": "Java",
+    "desc": "A modern Minecraft punishment system with optimized performance and powerful features",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "questsystem",
+    "lang": "Java",
+    "desc": null,
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "SimpleChatFilter",
+    "lang": "Java",
+    "desc": "Keep your server chat clean and family-friendly with this powerful, lightweight chat filtering plugin!",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "Smart-Lighting-System-Manger",
+    "lang": "Visual Basic .NET",
+    "desc": " An end\u2011to\u2011end, fully automated home lighting system with feedback\u2011based control over interior and exterior LEDs.   Uses light (LDR) and motion (ultrasonic) sensing to drive auto\u2011on/off and brightness, plus a VB.NET GUI for manual override, power estimation, and statistical analysis.",
+    "stars": 1,
+    "fork": false
+  },
+  {
+    "name": "Spleef",
+    "lang": "Java",
+    "desc": "A comprehensive Spleef minigame plugin for Minecraft servers with countdown, spectating, arena rebuilding, and statistics tracking",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "swot",
+    "lang": "Kotlin",
+    "desc": "Identify email addresses or domains names that belong to colleges or universities. Help automate the process of approving or rejecting academic discounts.",
+    "stars": 0,
+    "fork": true
+  },
+  {
+    "name": "TeleportationPlugin",
+    "lang": "Java",
+    "desc": "A comprehensive teleportation system for Minecraft servers with MongoDB integration, featuring homes, spawn teleportation, and player-to-player teleportation requests.",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "TEST",
+    "lang": null,
+    "desc": null,
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "TEST2",
+    "lang": null,
+    "desc": null,
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "TimeCrystal",
+    "lang": "Java",
+    "desc": "A Minecraft plugin that introduces Time Crystals - magical items capable of freezing time for nearby entities, creating tactical advantages and epic moments in your server",
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "UltrasonicX",
+    "lang": "C++",
+    "desc": null,
+    "stars": 0,
+    "fork": false
+  },
+  {
+    "name": "vbnet-mysql-driver",
+    "lang": "Visual Basic .NET",
+    "desc": "A beginner-friendly VB.NET MySQL driver (wrapper) for fast CRUD and DataGridView support.",
+    "stars": 1,
+    "fork": false
+  },
+  {
+    "name": "Warp-Plugin",
+    "lang": "Java",
+    "desc": "A lightweight and personal warp system for Minecraft servers. This plugin lets players easily set, teleport to, and delete their own warp points.",
+    "stars": 0,
+    "fork": false
+  }
+]
