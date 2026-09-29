@@ -8,7 +8,7 @@ import {
   CheckCircle2,
   FolderGit2,
   ChevronRight,
-  Sparkles,
+  Terminal,
 } from 'lucide-react';
 
 export function RoadmapPhoneShowcase() {
@@ -74,34 +74,34 @@ export function RoadmapPhoneShowcase() {
     <section
       id="projects"
       ref={containerRef}
-      className="relative pt-16 pb-24 md:pt-24 md:pb-36 bg-bg transition-colors duration-300"
-      aria-label="Featured Projects Showcase"
+      className="relative pt-16 pb-28 md:pt-24 md:pb-40 bg-bg transition-colors duration-300"
+      aria-label="Projects Showcase"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-14 md:mb-20 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-border text-xs font-mono text-muted mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-accent" />
-            <span>Curated Portfolio • 5 Real Implementations</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0d1217] border border-[#00ff87]/30 text-xs font-mono text-[#00ff87] mb-4 shadow-[0_0_15px_rgba(0,255,135,0.15)]">
+            <Terminal className="w-3.5 h-3.5" />
+            <span>Production Projects</span>
           </div>
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text leading-tight mb-4">
-            Five systems built with rigor and care.
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight mb-4">
+            Things I've engineered and shipped.
           </h2>
-          <p className="text-base sm:text-lg text-muted font-normal leading-relaxed">
-            Every project below represents production code, verified client deliverables, or peer-reviewed research. No conceptual mockups or unverified claims.
+          <p className="text-base sm:text-lg text-[#94a3b8] font-normal leading-relaxed">
+            Real code delivered for paying clients, active university branches, and research conferences. No vaporware, no mock statistics.
           </p>
         </div>
 
-        {/* Mobile Horizontal Stepper (<768px) */}
-        <div className="md:hidden flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-surface border border-border mb-8 overflow-x-auto">
+        {/* Mobile Stepper Bar (<1024px) */}
+        <div className="lg:hidden flex items-center justify-between gap-1.5 p-1.5 rounded-2xl bg-[#0e1217] border border-white/10 mb-8 overflow-x-auto">
           {PROJECTS.map((proj, idx) => (
             <button
               key={proj.id}
               onClick={() => scrollToProject(idx)}
               className={`flex-1 min-w-[58px] py-2 px-1 rounded-xl text-center font-mono text-xs transition-all ${
                 activeIndex === idx
-                  ? 'bg-surface-3 text-text font-bold border border-accent shadow-sm'
-                  : 'text-muted hover:text-text'
+                  ? 'bg-[#151c24] text-[#00ff87] font-bold border border-[#00ff87]/50 shadow-[0_0_15px_rgba(0,255,135,0.2)]'
+                  : 'text-muted hover:text-white'
               }`}
             >
               {proj.number}
@@ -109,31 +109,34 @@ export function RoadmapPhoneShowcase() {
           ))}
         </div>
 
-        {/* 3-Column Layout: Left Sticky Phone, Center Roadmap Gutter, Right Scrolling Topics */}
+        {/* 3-Column Layout: Left Sticky Phone, Center Curved Roadmap Gutter, Right Scrolling Topics */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative items-start">
-          {/* Column 1: Pinned Sticky Phone (Hidden on small mobile, sticky on desktop) */}
+          {/* Column 1: Pinned 3D Tilted Phone (Sticky in viewport) */}
           <div className="lg:col-span-5 sticky top-24 z-20 flex flex-col items-center">
             <div className="w-full max-w-[340px] sm:max-w-[370px]">
               <PhoneMockup project={activeProject} scrollProgress={scrollProgress} />
             </div>
 
             {/* Current Project Quick Status Bar on Desktop */}
-            <div className="mt-6 hidden lg:flex items-center justify-between w-full max-w-[340px] px-4 py-2.5 rounded-xl bg-surface/80 border border-border text-xs font-mono text-muted">
+            <div className="mt-6 hidden lg:flex items-center justify-between w-full max-w-[340px] px-4 py-2.5 rounded-xl bg-[#0c1015]/90 border border-white/10 text-xs font-mono text-muted backdrop-blur-md shadow-xl">
               <span>
                 Project {activeProject.number} of {PROJECTS.length.toString().padStart(2, '0')}
               </span>
-              <span className="flex items-center gap-1.5 text-text font-medium">
+              <span className="flex items-center gap-1.5 text-white font-medium">
                 <span
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: activeProject.accentColor }}
+                  className="w-2 h-2 rounded-full shadow-[0_0_8px_currentColor]"
+                  style={{
+                    backgroundColor: activeProject.accentColor,
+                    color: activeProject.accentColor,
+                  }}
                 />
                 {activeProject.category}
               </span>
             </div>
           </div>
 
-          {/* Column 2: Roadmap Gutter */}
-          <div className="hidden lg:block lg:col-span-1 h-full py-12">
+          {/* Column 2: Curved Glowing Neon Roadmap Gutter */}
+          <div className="hidden lg:block lg:col-span-1 h-full py-8">
             <RoadmapGutter
               projects={PROJECTS}
               activeIndex={activeIndex}
@@ -156,18 +159,18 @@ export function RoadmapPhoneShowcase() {
                   }}
                   className={`relative p-6 sm:p-8 rounded-3xl border transition-all duration-500 ${
                     isActive
-                      ? 'bg-surface/90 border-border shadow-card-hover opacity-100 scale-100'
-                      : 'bg-surface/40 border-border/50 opacity-40 hover:opacity-75 scale-[0.99]'
+                      ? 'bg-[#0e1217]/95 border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.8)] opacity-100 scale-100 ring-1 ring-[#00ff87]/20'
+                      : 'bg-[#0e1217]/40 border-white/5 opacity-40 hover:opacity-75 scale-[0.99]'
                   }`}
-                  style={{
-                    borderColor: isActive ? 'var(--border)' : undefined,
-                  }}
                 >
                   {/* Active highlight glow border accent */}
                   {isActive && (
                     <div
-                      className="absolute top-0 left-8 right-8 h-[2px] rounded-full transition-all duration-500"
-                      style={{ backgroundColor: project.accentColor }}
+                      className="absolute top-0 left-8 right-8 h-[2px] rounded-full transition-all duration-500 shadow-[0_0_12px_currentColor]"
+                      style={{
+                        backgroundColor: project.accentColor,
+                        color: project.accentColor,
+                      }}
                       aria-hidden="true"
                     />
                   )}
@@ -178,7 +181,7 @@ export function RoadmapPhoneShowcase() {
                       <span
                         className="px-2.5 py-1 rounded-md text-xs font-mono font-bold"
                         style={{
-                          backgroundColor: `${project.accentColor}20`,
+                          backgroundColor: `${project.accentColor}25`,
                           color: project.accentColor,
                         }}
                       >
@@ -189,47 +192,40 @@ export function RoadmapPhoneShowcase() {
                       </span>
                     </div>
 
-                    <span className="inline-flex items-center text-xs font-medium text-muted bg-surface-2 px-2.5 py-1 rounded-md border border-border">
+                    <span className="inline-flex items-center text-xs font-medium text-white/80 bg-white/5 px-2.5 py-1 rounded-md border border-white/10">
                       {project.role}
                     </span>
                   </div>
 
                   {/* Project Title */}
-                  <h3 className="font-heading text-2xl sm:text-3xl font-bold text-text mb-2 tracking-tight">
+                  <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-2 tracking-tight">
                     {project.title}
                   </h3>
 
                   {/* Subtitle / Organization */}
                   <p className="text-xs font-mono text-muted mb-4 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                    <span
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{ backgroundColor: project.accentColor }}
+                    />
                     {project.organization}
                   </p>
 
-                  {/* Factual Summary */}
-                  <p className="text-base text-muted leading-relaxed mb-6 font-normal">
+                  {/* Human, authentic summary */}
+                  <p className="text-base text-[#94a3b8] leading-relaxed mb-6 font-normal">
                     {project.summary}
                   </p>
 
-                  {/* Mobile Preview Image (Visible only on small viewports where sticky phone is hidden/compact) */}
-                  <div className="lg:hidden mb-6 rounded-2xl overflow-hidden border border-border bg-surface-2 aspect-video">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover img-outline"
-                      loading="lazy"
-                    />
-                  </div>
-
                   {/* 3 Specific Key Features */}
                   <div className="mb-6 space-y-3 pt-2">
-                    <p className="text-xs uppercase tracking-wider font-mono text-muted-dim">
-                      Architecture & Implementation
+                    <p className="text-xs uppercase tracking-wider font-mono text-white/50">
+                      Technical Architecture
                     </p>
                     <ul className="space-y-2.5">
                       {project.keyFeatures.map((feat, fIdx) => (
-                        <li key={fIdx} className="flex items-start gap-2.5 text-sm text-text">
+                        <li key={fIdx} className="flex items-start gap-2.5 text-sm text-white/90">
                           <CheckCircle2
-                            className="w-4 h-4 flex-shrink-0 mt-1 transition-colors"
+                            className="w-4 h-4 flex-shrink-0 mt-0.5"
                             style={{ color: project.accentColor }}
                           />
                           <span className="leading-snug">{feat}</span>
@@ -243,7 +239,7 @@ export function RoadmapPhoneShowcase() {
                     {project.stats.map((stat, sIdx) => (
                       <div
                         key={sIdx}
-                        className="p-3 rounded-xl bg-surface-2/80 border border-border text-center"
+                        className="p-3 rounded-xl bg-white/5 border border-white/10 text-center"
                       >
                         <div
                           className="font-heading font-bold text-base sm:text-lg tabular"
@@ -251,7 +247,7 @@ export function RoadmapPhoneShowcase() {
                         >
                           {stat.value}
                         </div>
-                        <div className="text-[11px] font-mono text-muted truncate">
+                        <div className="text-[11px] font-mono text-white/50 truncate">
                           {stat.label}
                         </div>
                       </div>
@@ -263,7 +259,7 @@ export function RoadmapPhoneShowcase() {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2.5 py-1 rounded-md bg-surface-2 border border-border text-xs font-mono text-muted"
+                        className="px-2.5 py-1 rounded-md bg-white/5 border border-white/5 text-xs font-mono text-white/70"
                       >
                         {tag}
                       </span>
@@ -271,17 +267,17 @@ export function RoadmapPhoneShowcase() {
                   </div>
 
                   {/* Action links */}
-                  <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-border">
+                  <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10">
                     {project.links.github && (
                       <a
                         href={project.links.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-2 hover:bg-surface-3 border border-border text-xs font-semibold text-text transition-colors group focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white transition-colors group focus:outline-none focus:ring-2 focus:ring-[#00ff87]"
                       >
-                        <GithubIcon className="w-3.5 h-3.5 text-muted group-hover:text-text" />
-                        <span>Source Repository</span>
-                        <ExternalLink className="w-3 h-3 text-muted group-hover:text-text ml-0.5" />
+                        <GithubIcon className="w-3.5 h-3.5 text-muted group-hover:text-white" />
+                        <span>Source Code</span>
+                        <ExternalLink className="w-3 h-3 text-muted group-hover:text-white ml-0.5" />
                       </a>
                     )}
 
@@ -290,7 +286,7 @@ export function RoadmapPhoneShowcase() {
                         href={project.links.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-accent text-[#0c1813] hover:brightness-105 text-xs font-semibold transition-all group focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl btn-neon text-xs font-semibold transition-all group focus:outline-none focus:ring-2 focus:ring-[#00ff87]"
                       >
                         <span>Live Deliverable</span>
                         <ChevronRight className="w-3.5 h-3.5" />
@@ -302,11 +298,11 @@ export function RoadmapPhoneShowcase() {
                         href={project.links.docs}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-2 hover:bg-surface-3 border border-border text-xs font-semibold text-text transition-colors group focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-white transition-colors group focus:outline-none focus:ring-2 focus:ring-[#00ff87]"
                       >
-                        <FolderGit2 className="w-3.5 h-3.5 text-accent" />
+                        <FolderGit2 className="w-3.5 h-3.5 text-[#00ff87]" />
                         <span>Technical Docs</span>
-                        <ExternalLink className="w-3 h-3 text-muted group-hover:text-text ml-0.5" />
+                        <ExternalLink className="w-3 h-3 text-muted group-hover:text-white ml-0.5" />
                       </a>
                     )}
                   </div>

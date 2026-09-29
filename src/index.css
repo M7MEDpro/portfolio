@@ -3,45 +3,47 @@
 @tailwind utilities;
 
 :root {
-  /* Dark Theme (Default) - Calm, eye-friendly, no harsh contrast */
-  --bg: #151a24;
-  --surface: #1d2432;
-  --surface-2: #232b3c;
-  --surface-3: #2a3449;
-  --border: #2c3547;
-  --border-subtle: #242c3c;
-  --text: #ebe8e1;
-  --muted: #9ba5b8;
-  --muted-dim: #647087;
-  --accent: #9ccfb5; /* Soft sage green */
-  --accent-dim: rgba(156, 207, 181, 0.16);
-  --phone-body: #10141c;
-  --phone-rim: #2d3648;
-  --card-bg: rgba(29, 36, 50, 0.75);
-  --card-border: rgba(44, 53, 71, 0.7);
-  --grain-opacity: 0.035;
+  /* Dark Theme (Default) - Deep Obsidian Black & Electric Emerald/Lime */
+  --bg: #070809;
+  --surface: #0e1217;
+  --surface-2: #141a22;
+  --surface-3: #1a232f;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --text: #f0f4f8;
+  --muted: #8b99ad;
+  --muted-dim: #546274;
+  --accent: #10b981; /* Emerald */
+  --accent-bright: #00ff87; /* Electric Lime/Green */
+  --accent-dim: rgba(0, 255, 135, 0.15);
+  --phone-body: #0a0d12;
+  --phone-rim: #1f2735;
+  --card-bg: rgba(14, 18, 23, 0.88);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --grain-opacity: 0.025;
   color-scheme: dark;
 }
 
 [data-theme="light"],
 html:not(.dark) {
-  /* Light Theme - Soft warm linen and sage, no blinding white */
-  --bg: #f3f1ec;
+  /* Light Theme - Clean Crisp Off-White & Forest Emerald */
+  --bg: #f5f7f5;
   --surface: #ffffff;
-  --surface-2: #ece9e2;
-  --surface-3: #e3dfd7;
-  --border: #dcd8cf;
-  --border-subtle: #e7e4dc;
-  --text: #1e2431;
-  --muted: #5d677b;
-  --muted-dim: #8a94a6;
-  --accent: #2f8f6b; /* Muted forest green */
-  --accent-dim: rgba(47, 143, 107, 0.14);
-  --phone-body: #242a36;
-  --phone-rim: #3e485a;
-  --card-bg: rgba(255, 255, 255, 0.85);
-  --card-border: rgba(220, 216, 207, 0.85);
-  --grain-opacity: 0.02;
+  --surface-2: #edf2ed;
+  --surface-3: #e1e8e1;
+  --border: #d4ded4;
+  --border-subtle: #e3ebe3;
+  --text: #0d1712;
+  --muted: #4e6056;
+  --muted-dim: #7a8e83;
+  --accent: #059669;
+  --accent-bright: #10b981;
+  --accent-dim: rgba(5, 150, 105, 0.12);
+  --phone-body: #202824;
+  --phone-rim: #38463e;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(212, 222, 212, 0.9);
+  --grain-opacity: 0.015;
   color-scheme: light;
 }
 
@@ -78,11 +80,12 @@ body {
   transition-timing-function: ease-out;
   min-height: 100vh;
   line-height: 1.65;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Bricolage Grotesque', sans-serif;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
@@ -94,46 +97,59 @@ p, li, caption {
   font-variant-numeric: tabular-nums;
 }
 
-/* Subtle organic grain overlay - very lightweight */
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+/* Ambient glow background spots */
+.glow-spot {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(100px);
   pointer-events: none;
-  z-index: 1;
-  opacity: var(--grain-opacity);
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 0;
 }
 
-/* Concentric card styling */
-.calm-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--card-border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition-property: border-color, box-shadow, transform;
+/* Neon buttons matching Sentra reference */
+.btn-neon {
+  background: linear-gradient(135deg, #00ff87 0%, #10b981 100%);
+  color: #04120a;
+  font-weight: 600;
+  box-shadow: 0 0 25px -4px rgba(0, 255, 135, 0.45), 0 0 10px rgba(16, 185, 129, 0.3);
+  transition-property: transform, filter, box-shadow;
   transition-duration: 200ms;
   transition-timing-function: ease-out;
 }
 
-.calm-card:hover {
-  border-color: var(--accent);
+.btn-neon:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 0 35px -2px rgba(0, 255, 135, 0.65), 0 0 15px rgba(16, 185, 129, 0.45);
+  transform: translateY(-1px);
 }
 
-/* Subtle image outline so screenshot edges don't bleed into background */
-.img-outline {
-  outline: 1px solid rgba(255, 255, 255, 0.08);
-  outline-offset: -1px;
+.btn-neon:active {
+  transform: translateY(0px) scale(0.98);
 }
 
-[data-theme="light"] .img-outline {
-  outline: 1px solid rgba(0, 0, 0, 0.08);
+/* Sentra-style glowing slider pill */
+.glow-pill-container {
+  background: rgba(14, 18, 23, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px -5px rgba(0, 255, 135, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Circuit trace path glow */
+.circuit-glow {
+  filter: drop-shadow(0 0 12px rgba(0, 255, 135, 0.6)) drop-shadow(0 0 4px rgba(16, 185, 129, 0.8));
+}
+
+/* 3D phone canvas styling */
+.phone-3d-wrapper {
+  transform-style: preserve-3d;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg);
@@ -141,10 +157,10 @@ p, li, caption {
 ::-webkit-scrollbar-thumb {
   background: var(--surface-3);
   border-radius: 9999px;
-  border: 2px solid var(--bg);
+  border: 1px solid var(--bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: var(--accent-bright);
 }
 
 /* Reduced motion preference */
