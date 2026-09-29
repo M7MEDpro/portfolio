@@ -27,7 +27,7 @@ export function SmartHomePhoneUI() {
               Projecto-Messio IoT
             </span>
             <h3 className="text-base font-heading font-bold text-white tracking-tight">
-              WELCOME HOME <span className="text-[#00ff87]">ABDO</span>
+              WELCOME HOME <span className="text-[#00ff87]">BADAWY</span>
             </h3>
           </div>
           <div className="w-8 h-8 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-white/80">

@@ -10,41 +10,44 @@ import {
   Terminal as TerminalIcon,
   CheckCircle2,
   ExternalLink,
+  Zap,
 } from 'lucide-react';
 
 export function AgriTelemetryDashboard() {
-  const [temperature, setTemperature] = useState(24.6);
-  const [humidity, setHumidity] = useState(62.4);
-  const [lux, setLux] = useState(845);
+  const [temperature, setTemperature] = useState(24.4);
+  const [humidity, setHumidity] = useState(62.8);
+  const [lux, setLux] = useState(840);
+  const [soilMoisture, setSoilMoisture] = useState(58);
   const [fanActive, setFanActive] = useState(true);
   const [mistActive, setMistActive] = useState(false);
   const [lightsActive, setLightsActive] = useState(true);
   const [roofVentAngle, setRoofVentAngle] = useState(45);
   const [packets, setPackets] = useState<string[]>([
     'INIT: Arduino Uno R3 COM4 @ 115200 baud connected.',
-    'DHT11_CALIBRATE: Temperature setpoint band 22.0°C - 26.0°C.',
-    'FEEDBACK_LOOP: Closed-loop deterministic logic active.',
-    'RX [03:41:02]: T=24.6°C, H=62.4%, LDR=845 lx -> Nominal',
-    'RELAY_01: Exhaust fan 1400 RPM engaged [Temp > 24.0°C]',
+    'DHT11_CAL: Setpoint band 22.0°C - 26.0°C nominal.',
+    'FEEDBACK: Deterministic loop engaged [60Hz].',
+    'RX [03:41:02]: T=24.4°C, H=62.8%, LDR=840 lx -> OK',
   ]);
 
-  // Simulate subtle real-time telemetry fluctuations
+  // Subtle real-time telemetry fluctuations
   useEffect(() => {
     const timer = setInterval(() => {
-      const deltaTemp = (Math.random() - 0.5) * 0.4;
-      const deltaHum = (Math.random() - 0.5) * 0.6;
-      const deltaLux = Math.floor((Math.random() - 0.5) * 15);
+      const deltaTemp = (Math.random() - 0.5) * 0.3;
+      const deltaHum = (Math.random() - 0.5) * 0.5;
+      const deltaLux = Math.floor((Math.random() - 0.5) * 12);
+      const deltaMoist = Math.floor((Math.random() - 0.5) * 2);
 
-      setTemperature((t) => Number(Math.max(22, Math.min(27, t + deltaTemp)).toFixed(1)));
-      setHumidity((h) => Number(Math.max(55, Math.min(75, h + deltaHum)).toFixed(1)));
-      setLux((l) => Math.max(780, Math.min(920, l + deltaLux)));
+      setTemperature((t) => Number(Math.max(22, Math.min(26.5, t + deltaTemp)).toFixed(1)));
+      setHumidity((h) => Number(Math.max(56, Math.min(72, h + deltaHum)).toFixed(1)));
+      setLux((l) => Math.max(790, Math.min(910, l + deltaLux)));
+      setSoilMoisture((m) => Math.max(54, Math.min(65, m + deltaMoist)));
 
       const timeStr = new Date().toTimeString().split(' ')[0];
       setPackets((prev) => [
-        ...prev.slice(-4),
-        `RX [${timeStr}]: T=${(24.6 + deltaTemp).toFixed(1)}°C H=${(62.4 + deltaHum).toFixed(1)}% LDR=${845 + deltaLux}lx -> Feedback Loop Valid`,
+        ...prev.slice(-3),
+        `RX [${timeStr}]: T=${(24.4 + deltaTemp).toFixed(1)}°C H=${(62.8 + deltaHum).toFixed(1)}% LDR=${840 + deltaLux}lx -> Loop OK`,
       ]);
-    }, 3200);
+    }, 2800);
 
     return () => clearInterval(timer);
   }, []);
@@ -53,94 +56,99 @@ export function AgriTelemetryDashboard() {
     setMistActive(true);
     const timeStr = new Date().toTimeString().split(' ')[0];
     setPackets((prev) => [
-      ...prev.slice(-4),
-      `MANUAL_OVERRIDE [${timeStr}]: Solenoid mist valve pulsed (2000ms).`,
+      ...prev.slice(-3),
+      `OVERRIDE [${timeStr}]: Solenoid mist valve pulsed (2000ms).`,
     ]);
     setTimeout(() => {
       setMistActive(false);
-    }, 2500);
+    }, 2200);
   };
 
+  // Temp percentage in 20-30°C band
+  const tempPercent = Math.min(100, Math.max(0, ((temperature - 20) / 10) * 100));
+
   return (
-    <div className="w-full h-full flex flex-col bg-[#07090e] text-white font-sans text-xs select-none overflow-hidden">
-      {/* Top Telemetry Header */}
-      <div className="h-9 px-3 bg-[#0a0d14] border-b border-white/10 flex items-center justify-between flex-shrink-0">
+    <div className="w-full h-full flex flex-col bg-[#07090e] text-white font-sans text-xs select-none overflow-hidden justify-between">
+      {/* 1. Header Bar */}
+      <div className="h-8 px-3 bg-[#0a0d14] border-b border-white/10 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-[#00ff87] animate-pulse" />
           <span className="font-mono font-bold text-[11px] text-white tracking-wide">
-            AGRI-TELEMETRY CONTROL
+            AGRI-TELEMETRY SCADA
           </span>
-          <span className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-white/5 text-[9px] font-mono text-[#00ff87] border border-[#00ff87]/30">
+          <span className="px-1.5 py-0.5 rounded bg-[#00ff87]/10 text-[9px] font-mono text-[#00ff87] border border-[#00ff87]/30">
             IEEE ITC-Egypt 2025
           </span>
         </div>
 
         <div className="flex items-center gap-2 text-[10px] font-mono text-[#94a3b8]">
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1 text-white/80">
             <Cpu className="w-3 h-3 text-[#00ff87]" />
-            <span className="hidden md:inline">Arduino Uno:</span>
-            <span className="text-white font-bold">COM4 @ 115200</span>
+            <span>Arduino Uno R3</span>
+            <span className="text-[#00ff87] font-semibold">(COM4)</span>
           </span>
-          <span className="hidden sm:inline text-white/30">|</span>
+          <span className="text-white/20">|</span>
           <span className="text-[#00ff87] font-semibold flex items-center gap-1">
             <Activity className="w-2.5 h-2.5 animate-pulse" />
-            LOOP: 60Hz
+            60Hz LOOP
           </span>
         </div>
       </div>
 
-      {/* Main Console Grid */}
-      <div className="flex-1 p-3 grid grid-cols-12 gap-2.5 overflow-hidden">
-        {/* Left Column: 4 Live Telemetry Gauges */}
-        <div className="col-span-12 sm:col-span-7 grid grid-cols-2 gap-2">
-          {/* Temperature (DHT11) */}
-          <div className="p-2.5 rounded-xl bg-[#0d1219] border border-white/10 flex flex-col justify-between">
+      {/* 2. Main Workstation Body */}
+      <div className="flex-1 p-2.5 grid grid-cols-12 gap-2 overflow-hidden items-stretch">
+        {/* Left Column: 4 Telemetry Gauges (7 cols) */}
+        <div className="col-span-7 grid grid-cols-2 gap-2">
+          {/* Gauge 1: Temperature */}
+          <div className="p-2 rounded-xl bg-[#0d1219] border border-white/10 flex flex-col justify-between hover:border-[#00ff87]/30 transition-all">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono text-[#8b99ad] flex items-center gap-1">
-                <Thermometer className="w-3 h-3 text-[#ff5f56]" />
+                <Thermometer className="w-3 h-3 text-[#ff6b6b]" />
                 DHT11 Temp
               </span>
-              <span className="text-[9px] font-mono text-[#00ff87] bg-[#00ff87]/10 px-1 py-0.2 rounded">
+              <span className="text-[8.5px] font-mono text-[#00ff87] bg-[#00ff87]/15 px-1 py-0.2 rounded border border-[#00ff87]/30">
                 Optimal
               </span>
             </div>
-            <div className="my-1">
-              <div className="text-2xl font-bold font-mono text-white tabular-nums tracking-tight">
-                {temperature} <span className="text-xs text-[#00ff87]">°C</span>
+
+            <div className="flex items-baseline justify-between my-0.5">
+              <div className="text-xl font-bold font-mono text-white tabular-nums tracking-tight">
+                {temperature}
+                <span className="text-xs text-[#00ff87] font-normal ml-0.5">°C</span>
               </div>
-              <div className="text-[9px] text-[#8b99ad] font-mono">Target: 22.0 - 26.0 °C</div>
+              <div className="text-[8.5px] text-white/40 font-mono">22-26°C Band</div>
             </div>
-            {/* Simulated Live Sparkline */}
-            <div className="h-4 w-full flex items-end gap-0.5">
-              {[40, 55, 60, 48, 70, 65, 80, 75, 85, 78, 88].map((val, i) => (
-                <div
-                  key={i}
-                  className="flex-1 bg-[#00ff87]/40 rounded-t transition-all duration-500"
-                  style={{ height: `${val}%` }}
-                />
-              ))}
+
+            {/* Micro Gauge Meter */}
+            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-[#00ff87] via-[#22c55e] to-[#f59e0b] rounded-full transition-all duration-700"
+                style={{ width: `${tempPercent}%` }}
+              />
             </div>
           </div>
 
-          {/* Humidity (DHT11) */}
-          <div className="p-2.5 rounded-xl bg-[#0d1219] border border-white/10 flex flex-col justify-between">
+          {/* Gauge 2: Humidity */}
+          <div className="p-2 rounded-xl bg-[#0d1219] border border-white/10 flex flex-col justify-between hover:border-[#38bdf8]/30 transition-all">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono text-[#8b99ad] flex items-center gap-1">
                 <Droplets className="w-3 h-3 text-[#38bdf8]" />
                 DHT11 Humidity
               </span>
-              <span className="text-[9px] font-mono text-[#38bdf8] bg-[#38bdf8]/10 px-1 py-0.2 rounded">
+              <span className="text-[8.5px] font-mono text-[#38bdf8] bg-[#38bdf8]/15 px-1 py-0.2 rounded border border-[#38bdf8]/30">
                 Stable
               </span>
             </div>
-            <div className="my-1">
-              <div className="text-2xl font-bold font-mono text-white tabular-nums tracking-tight">
-                {humidity} <span className="text-xs text-[#38bdf8]">%RH</span>
+
+            <div className="flex items-baseline justify-between my-0.5">
+              <div className="text-xl font-bold font-mono text-white tabular-nums tracking-tight">
+                {humidity}
+                <span className="text-xs text-[#38bdf8] font-normal ml-0.5">%RH</span>
               </div>
-              <div className="text-[9px] text-[#8b99ad] font-mono">Target: 55 - 70 %RH</div>
+              <div className="text-[8.5px] text-white/40 font-mono">Target: 60%</div>
             </div>
-            {/* Bar meter */}
-            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+
+            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-[#38bdf8] to-[#00ff87] rounded-full transition-all duration-700"
                 style={{ width: `${humidity}%` }}
@@ -148,142 +156,160 @@ export function AgriTelemetryDashboard() {
             </div>
           </div>
 
-          {/* Light Intensity (LDR) */}
-          <div className="p-2.5 rounded-xl bg-[#0d1219] border border-white/10 flex flex-col justify-between">
+          {/* Gauge 3: LDR Lux */}
+          <div className="p-2 rounded-xl bg-[#0d1219] border border-white/10 flex flex-col justify-between hover:border-[#f59e0b]/30 transition-all">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono text-[#8b99ad] flex items-center gap-1">
                 <Sun className="w-3 h-3 text-[#f59e0b]" />
                 LDR Photo-Lux
               </span>
-              <span className="text-[9px] font-mono text-[#f59e0b] bg-[#f59e0b]/10 px-1 py-0.2 rounded">
+              <span className="text-[8.5px] font-mono text-[#f59e0b] bg-[#f59e0b]/15 px-1 py-0.2 rounded border border-[#f59e0b]/30">
                 Daylight
               </span>
             </div>
-            <div className="my-1">
-              <div className="text-2xl font-bold font-mono text-white tabular-nums tracking-tight">
-                {lux} <span className="text-xs text-[#f59e0b]">Lux</span>
+
+            <div className="flex items-baseline justify-between my-0.5">
+              <div className="text-xl font-bold font-mono text-white tabular-nums tracking-tight">
+                {lux}
+                <span className="text-xs text-[#f59e0b] font-normal ml-0.5">lx</span>
               </div>
-              <div className="text-[9px] text-[#8b99ad] font-mono">Daylight Threshold: &gt;500</div>
+              <div className="text-[8.5px] text-white/40 font-mono">&gt;500 lx min</div>
             </div>
-            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+
+            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-[#f59e0b] to-[#fbbf24] rounded-full transition-all duration-700"
-                style={{ width: `${(lux / 1000) * 100}%` }}
+                style={{ width: `${Math.min(100, (lux / 1000) * 100)}%` }}
               />
             </div>
           </div>
 
-          {/* Soil Moisture & Loop Status */}
-          <div className="p-2.5 rounded-xl bg-[#0d1219] border border-white/10 flex flex-col justify-between">
+          {/* Gauge 4: Soil Moisture */}
+          <div className="p-2 rounded-xl bg-[#0d1219] border border-white/10 flex flex-col justify-between hover:border-[#10b981]/30 transition-all">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono text-[#8b99ad] flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3 text-[#10b981]" />
                 Soil Moisture
               </span>
-              <span className="text-[9px] font-mono text-[#10b981] bg-[#10b981]/10 px-1 py-0.2 rounded">
-                Good
+              <span className="text-[8.5px] font-mono text-[#10b981] bg-[#10b981]/15 px-1 py-0.2 rounded border border-[#10b981]/30">
+                Nominal
               </span>
             </div>
-            <div className="my-1">
-              <div className="text-2xl font-bold font-mono text-white tabular-nums tracking-tight">
-                58 <span className="text-xs text-[#10b981]">%</span>
+
+            <div className="flex items-baseline justify-between my-0.5">
+              <div className="text-xl font-bold font-mono text-white tabular-nums tracking-tight">
+                {soilMoisture}
+                <span className="text-xs text-[#10b981] font-normal ml-0.5">%</span>
               </div>
-              <div className="text-[9px] text-[#8b99ad] font-mono">Closed-Loop Relay: Ready</div>
+              <div className="text-[8.5px] text-white/40 font-mono">Feedback OK</div>
             </div>
-            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
-              <div className="h-full bg-[#10b981] rounded-full" style={{ width: '58%' }} />
+
+            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#10b981] rounded-full transition-all duration-700"
+                style={{ width: `${soilMoisture}%` }}
+              />
             </div>
           </div>
         </div>
 
-        {/* Right Column: Closed-Loop Actuators & Terminal */}
-        <div className="col-span-12 sm:col-span-5 flex flex-col gap-2">
-          {/* Actuator Relay Status Box */}
-          <div className="p-2.5 rounded-xl bg-[#0d1219] border border-white/10 space-y-1.5">
-            <div className="flex items-center justify-between text-[10px] font-mono">
-              <span className="text-white/60">ACTUATOR RELAYS</span>
+        {/* Right Column: Relays & Serial Feed (5 cols) */}
+        <div className="col-span-5 flex flex-col justify-between gap-1.5">
+          {/* Actuator Relay Card */}
+          <div className="p-2 rounded-xl bg-[#0d1219] border border-white/10 flex flex-col gap-1">
+            <div className="flex items-center justify-between text-[9.5px] font-mono">
+              <span className="text-white/60 font-semibold flex items-center gap-1">
+                <Zap className="w-2.5 h-2.5 text-[#00ff87]" />
+                RELAY MATRIX
+              </span>
               <button
                 onClick={handleTestRelay}
-                className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#00ff87]/20 text-[#00ff87] hover:bg-[#00ff87]/30 transition-all font-mono text-[9px]"
+                className="flex items-center gap-1 px-1.5 py-0.2 rounded bg-[#00ff87]/20 text-[#00ff87] hover:bg-[#00ff87]/30 transition-all text-[8.5px] font-mono"
               >
-                <RefreshCw className={`w-2.5 h-2.5 ${mistActive ? 'animate-spin' : ''}`} />
-                <span>Test Pulse</span>
+                <RefreshCw className={`w-2 h-2 ${mistActive ? 'animate-spin' : ''}`} />
+                <span>Pulse Mist</span>
               </button>
             </div>
 
-            {/* Relays List */}
-            <div className="space-y-1">
-              {/* Relay 1: Fan */}
-              <div
+            <div className="grid grid-cols-2 gap-1 text-[9px] font-mono">
+              {/* Fan */}
+              <button
                 onClick={() => setFanActive(!fanActive)}
-                className="flex items-center justify-between p-1.5 rounded-lg bg-black/40 border border-white/5 cursor-pointer hover:border-[#00ff87]/30 transition-all"
+                className={`p-1.5 rounded-lg border flex flex-col justify-between text-left transition-all ${
+                  fanActive
+                    ? 'bg-[#00ff87]/10 border-[#00ff87]/30 text-white'
+                    : 'bg-black/30 border-white/5 text-white/40'
+                }`}
               >
-                <div className="flex items-center gap-1.5">
-                  <Power
-                    className={`w-3 h-3 ${fanActive ? 'text-[#00ff87]' : 'text-white/30'}`}
-                  />
-                  <span className="text-[10px] text-white">Exhaust Fan</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-sans text-[9px]">Exhaust Fan</span>
+                  <Power className={`w-2.5 h-2.5 ${fanActive ? 'text-[#00ff87]' : 'text-white/20'}`} />
                 </div>
-                <span className="font-mono text-[9px] text-[#00ff87] font-semibold">
+                <span className="text-[#00ff87] font-bold text-[8.5px] mt-0.5">
                   {fanActive ? '1400 RPM' : 'OFF'}
                 </span>
-              </div>
+              </button>
 
-              {/* Relay 2: Mist Valve */}
-              <div
+              {/* Mist */}
+              <button
                 onClick={handleTestRelay}
-                className="flex items-center justify-between p-1.5 rounded-lg bg-black/40 border border-white/5 cursor-pointer hover:border-[#38bdf8]/30 transition-all"
+                className={`p-1.5 rounded-lg border flex flex-col justify-between text-left transition-all ${
+                  mistActive
+                    ? 'bg-[#38bdf8]/20 border-[#38bdf8]/40 text-white shadow-[0_0_10px_rgba(56,189,248,0.2)]'
+                    : 'bg-black/30 border-white/5 text-white/40'
+                }`}
               >
-                <div className="flex items-center gap-1.5">
-                  <Power
-                    className={`w-3 h-3 ${mistActive ? 'text-[#38bdf8] animate-pulse' : 'text-white/30'}`}
-                  />
-                  <span className="text-[10px] text-white">Irrigation Mist</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-sans text-[9px]">Mist Valve</span>
+                  <Power className={`w-2.5 h-2.5 ${mistActive ? 'text-[#38bdf8] animate-pulse' : 'text-white/20'}`} />
                 </div>
-                <span
-                  className={`font-mono text-[9px] font-semibold ${mistActive ? 'text-[#38bdf8]' : 'text-white/40'}`}
-                >
-                  {mistActive ? 'PULSING (AUTO)' : 'STANDBY'}
+                <span className={`font-bold text-[8.5px] mt-0.5 ${mistActive ? 'text-[#38bdf8]' : 'text-white/40'}`}>
+                  {mistActive ? 'PULSING' : 'STANDBY'}
                 </span>
-              </div>
+              </button>
 
-              {/* Relay 3: Grow Lights */}
-              <div
+              {/* Grow Lights */}
+              <button
                 onClick={() => setLightsActive(!lightsActive)}
-                className="flex items-center justify-between p-1.5 rounded-lg bg-black/40 border border-white/5 cursor-pointer hover:border-[#f59e0b]/30 transition-all"
+                className={`p-1.5 rounded-lg border flex flex-col justify-between text-left transition-all ${
+                  lightsActive
+                    ? 'bg-[#f59e0b]/10 border-[#f59e0b]/30 text-white'
+                    : 'bg-black/30 border-white/5 text-white/40'
+                }`}
               >
-                <div className="flex items-center gap-1.5">
-                  <Power
-                    className={`w-3 h-3 ${lightsActive ? 'text-[#f59e0b]' : 'text-white/30'}`}
-                  />
-                  <span className="text-[10px] text-white">LED Grow Array</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-sans text-[9px]">LED Grow</span>
+                  <Power className={`w-2.5 h-2.5 ${lightsActive ? 'text-[#f59e0b]' : 'text-white/20'}`} />
                 </div>
-                <span className="font-mono text-[9px] text-[#f59e0b] font-semibold">
+                <span className="text-[#f59e0b] font-bold text-[8.5px] mt-0.5">
                   {lightsActive ? '65% PWM' : 'OFF'}
                 </span>
-              </div>
+              </button>
 
               {/* Roof Shutter */}
-              <div
+              <button
                 onClick={() => setRoofVentAngle((a) => (a === 45 ? 90 : 45))}
-                className="flex items-center justify-between p-1.5 rounded-lg bg-black/40 border border-white/5 cursor-pointer hover:border-white/20 transition-all"
+                className="p-1.5 rounded-lg bg-black/30 border border-white/5 text-white/70 flex flex-col justify-between text-left hover:border-white/20 transition-all"
               >
-                <span className="text-[10px] text-white pl-4">Roof Vent Servo</span>
-                <span className="font-mono text-[9px] text-white/80">
+                <span className="font-sans text-[9px]">Vent Servo</span>
+                <span className="text-white font-bold text-[8.5px] mt-0.5">
                   OPEN {roofVentAngle}°
                 </span>
-              </div>
+              </button>
             </div>
           </div>
 
           {/* Mini Serial Packet Stream */}
-          <div className="flex-1 p-2 rounded-xl bg-black/60 border border-white/10 font-mono flex flex-col justify-between overflow-hidden">
-            <div className="flex items-center gap-1.5 text-[9px] text-[#00ff87] pb-1 border-b border-white/5">
-              <TerminalIcon className="w-2.5 h-2.5" />
-              <span>SERIAL FEEDBACK LOG [115200 BAUD]</span>
+          <div className="p-1.5 rounded-xl bg-black/70 border border-white/10 font-mono flex flex-col justify-between overflow-hidden">
+            <div className="flex items-center justify-between text-[8.5px] text-[#00ff87] pb-1 border-b border-white/5">
+              <span className="flex items-center gap-1">
+                <TerminalIcon className="w-2.5 h-2.5" />
+                <span>COM4 FEEDBACK STREAM</span>
+              </span>
+              <span className="text-white/40">115200</span>
             </div>
 
-            <div className="space-y-0.5 text-[8.5px] leading-tight text-white/70 overflow-hidden py-1">
+            <div className="space-y-0.5 text-[8px] leading-tight text-white/70 py-1 overflow-hidden">
               {packets.map((pkt, i) => (
                 <div
                   key={i}
@@ -294,17 +320,17 @@ export function AgriTelemetryDashboard() {
               ))}
             </div>
 
-            <div className="pt-1 border-t border-white/5 flex items-center justify-between text-[8px] text-white/40">
+            <div className="pt-0.5 border-t border-white/5 flex items-center justify-between text-[7.5px] text-white/40">
               <span>CRC: 0x9B2F OK</span>
-              <span className="text-[#00ff87]">CLOSED-LOOP DETERMINISTIC</span>
+              <span className="text-[#00ff87]">DETERMINISTIC CLOSED-LOOP</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom IEEE Xplore Citation Strip */}
-      <div className="h-6 px-3 bg-[#080b10] border-t border-white/10 flex items-center justify-between text-[9px] font-mono text-[#8b99ad] flex-shrink-0">
-        <span className="truncate max-w-[280px]">
+      {/* 3. Bottom IEEE Xplore Citation Strip */}
+      <div className="h-6 px-3 bg-[#080b10] border-t border-white/10 flex items-center justify-between text-[8.5px] font-mono text-[#8b99ad] flex-shrink-0">
+        <span className="truncate max-w-[290px]">
           Paper DOI: <span className="text-[#00ff87]">10.1109/ITC-Egypt66095.2025.11186572</span>
         </span>
         <a

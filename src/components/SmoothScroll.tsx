@@ -23,6 +23,7 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
       wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
     });
+    (window as any).__lenis = lenis;
 
     let rafId: number;
 

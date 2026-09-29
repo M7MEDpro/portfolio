@@ -3,8 +3,8 @@ import { LaptopMockup } from './LaptopMockup';
 import { PhoneMockup } from './PhoneMockup';
 import { ServerMockup } from './ServerMockup';
 import { AgriTelemetryDashboard } from './AgriTelemetryDashboard';
-import { InnovatronicsPcbCanvas } from './InnovatronicsPcbCanvas';
-import { SmartHomePhoneUI } from './SmartHomePhoneUI';
+import { HealthLinkPhoneUI } from './HealthLinkPhoneUI';
+import { ShowcaseVideo } from './ShowcaseVideo';
 import { GithubIcon } from './Icons';
 import {
   Globe,
@@ -76,7 +76,7 @@ export function ThreeTierShowcase() {
         { label: 'Branch Role', value: 'Webmaster' },
       ],
       tags: ['Java 21', 'Spring Boot 3', 'MongoDB', 'JWT Auth', 'REST API', 'Docker'],
-      image: '/projects/ieee_dashboard.png',
+      image: '/projects/ieee_ecu_real_portal.png',
       url: 'https://facebook.com/IEEE.ECU.SB',
       badge: 'Production Web Portal',
       statLabel: 'Active Members',
@@ -148,6 +148,32 @@ export function ThreeTierShowcase() {
   // 2. Full-Stack Mobile & Hardware IoT Projects (Displayed on 3D Phone)
   const mobileProjects = [
     {
+      id: 'thauma-mobile',
+      tabName: 'Thauma Journey',
+      title: 'Thauma Convention Journey & Gamification App',
+      subtitle: 'High-FPS Animated Ranking, Hall of Fame & Journey Guide',
+      role: 'Mobile Frontend Engineer',
+      organization: 'Thauma Platform',
+      orgUrl: 'https://github.com/M7MEDpro',
+      summary:
+        'Full-stack mobile gamification application featuring interactive spiritual guide audio messages, dynamic convention map, real-time hall-of-fame leaderboards, and trophy unlocks running at solid 60 FPS with reactive Riverpod state.',
+      highlights: [
+        'Butter-smooth 60 FPS animations with hardware-accelerated transitions and interactive journey guide.',
+        'Live ranking synchronization updating player score deltas and trophy unlock badges in real time.',
+        'Adaptive touch-friendly ergonomics optimized for one-handed mobile navigation.',
+      ],
+      stats: [
+        { label: 'Animation', value: '60 FPS Solid' },
+        { label: 'Platform', value: 'Flutter' },
+        { label: 'State Mgmt', value: 'Riverpod' },
+      ],
+      tags: ['Flutter', 'Dart', 'Riverpod', '60 FPS Animations', 'Clean Architecture'],
+      badge: 'Interactive Journey',
+      statLabel: 'Render Speed',
+      statValue: '60 FPS',
+      buttonType: 'none',
+    },
+    {
       id: 'messio-mobile',
       tabName: 'Smart Home IoT',
       title: 'Projecto-Messio Smart Home IoT Hub',
@@ -174,33 +200,6 @@ export function ThreeTierShowcase() {
       github: 'https://github.com/M7MEDpro/Projecto-Messio',
       buttonType: 'github',
       buttonText: 'View GitHub Repository',
-    },
-    {
-      id: 'thauma-mobile',
-      tabName: 'Thauma Leaderboard',
-      title: 'Thauma Convention & Gamification App',
-      subtitle: 'High-FPS Animated Ranking, Hall of Fame & Trophies',
-      role: 'Mobile Frontend Engineer',
-      organization: 'Thauma Platform',
-      orgUrl: 'https://github.com/M7MEDpro',
-      summary:
-        'Mobile gamification application featuring real-time hall-of-fame leaderboards, achievement trophies, and responsive ranking lists running at solid 60 FPS with reactive Riverpod state.',
-      highlights: [
-        'Butter-smooth 60 FPS animations with hardware-accelerated particle effects and staggered list transitions.',
-        'Live ranking synchronization updating player score deltas and trophy unlock badges instantly.',
-        'Adaptive touch-friendly ergonomics optimized for one-handed mobile navigation.',
-      ],
-      stats: [
-        { label: 'Animation', value: '60 FPS Solid' },
-        { label: 'Platform', value: 'Flutter' },
-        { label: 'State Mgmt', value: 'Riverpod' },
-      ],
-      tags: ['Flutter', 'Dart', 'Riverpod', '60 FPS Animations', 'Clean Architecture'],
-      image: '/assets/projects/thauma_09_hall_of_fame_leaderboard.png',
-      badge: 'Hall of Fame UI',
-      statLabel: 'Render Speed',
-      statValue: '60 FPS',
-      buttonType: 'none',
     },
     {
       id: 'healthlink-mobile',
@@ -435,17 +434,24 @@ export function ThreeTierShowcase() {
                 accentColor="#00ff87"
                 tiltDirection="left"
               >
-                {/* Custom Interactive UIs */}
+                {/* Custom Interactive UIs and Real Videos (Pure video, no overlays) */}
                 {currentWeb.id === 'agri-monitor' ? (
                   <AgriTelemetryDashboard />
                 ) : currentWeb.id === 'pcb-web' ? (
-                  <InnovatronicsPcbCanvas />
+                  <div className="relative w-full h-full bg-[#05070a] overflow-hidden">
+                    <ShowcaseVideo
+                      src="/videos/innovatronics_demo.mp4"
+                      poster="/projects/innovatronics_poster.jpg"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
                 ) : (
-                  <img
-                    src={currentWeb.image}
-                    alt={currentWeb.title}
-                    className="w-full h-full object-cover object-top"
-                  />
+                  <div className="relative w-full h-full bg-[#05070a] overflow-hidden">
+                    <ShowcaseVideo
+                      src="/videos/ieee_ecu_portal_demo.mp4"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
                 )}
               </LaptopMockup>
             </div>
@@ -741,9 +747,23 @@ export function ThreeTierShowcase() {
                 accentColor="#00ff87"
                 tiltDirection="right"
               >
-                {/* Custom Interactive Mobile UI for Messio */}
+                {/* Mobile Mockup Content (Pure video, no overlays) */}
                 {currentMobile.id === 'messio-mobile' ? (
-                  <SmartHomePhoneUI />
+                  <div className="relative w-full h-full bg-[#07090d] overflow-hidden">
+                    <ShowcaseVideo
+                      src="/videos/projecto_messio_demo.mp4"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                ) : currentMobile.id === 'thauma-mobile' ? (
+                  <div className="relative w-full h-full bg-[#0c0a17] overflow-hidden">
+                    <ShowcaseVideo
+                      src="/videos/thauma_demo.mp4"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                ) : currentMobile.id === 'healthlink-mobile' ? (
+                  <HealthLinkPhoneUI />
                 ) : (
                   <img
                     src={currentMobile.image}
